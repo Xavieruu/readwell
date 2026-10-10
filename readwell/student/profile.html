@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="area-student">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Profile and Settings | ReadWell</title>
+    <meta name="description" content="Your profile and reading options.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/reading.css">
+    <link rel="stylesheet" href="../css/student.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-root="../" data-area="student" data-page="settings" data-nav="settings">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" id="site-header"></header>
+
+    <main id="main-content" tabindex="-1">
+        <noscript><p class="noscript-note">ReadWell needs JavaScript turned on to work.</p></noscript>
+
+        <div class="page-header">
+            <div class="container">
+                <h1 id="page-title" tabindex="-1">My Profile</h1>
+                <p>Your profile and reading options.</p>
+            </div>
+        </div>
+        <div class="container section-body stack">
+            <section class="card" aria-labelledby="h-profile">
+                <h2 id="h-profile">About me</h2>
+                <dl class="details">
+                    <dt>Name</dt><dd id="p-name"></dd>
+                    <dt>Grade</dt><dd id="p-grade"></dd>
+                    <dt>Username</dt><dd id="p-username" class="mono"></dd>
+                </dl>
+                <p class="field-hint">Only a parent can change account details. Ask your parent if something needs to change.</p>
+            </section>
+            <section class="card" aria-labelledby="h-access">
+                <h2 id="h-access">Accessibility</h2>
+                <p>Change text size, spacing, colors, motion and reading aloud so reading feels good to you.</p>
+                <p id="p-summary" class="field-hint"></p>
+                <a class="btn btn-primary" href="accessibility.html">Open accessibility settings</a>
+            </section>
+            <section class="card" aria-labelledby="h-timer">
+                <h2 id="h-timer">Reading timer</h2>
+                <p>A timer can show how long you have been reading. It only counts up. It never ends an activity and it does not change your score.</p>
+                <fieldset class="choice-fieldset">
+                    <legend class="visually-hidden">Reading timer</legend>
+                    <div class="choices">
+                        <label class="choice"><input type="radio" name="timer" value="off"><span>Off</span></label>
+                        <label class="choice"><input type="radio" name="timer" value="on"><span>On</span></label>
+                    </div>
+                </fieldset>
+                <p class="save-note" id="timer-note" role="status"></p>
+            </section>
+            <button type="button" class="btn btn-secondary" id="logout">Logout</button>
+        </div>
+    </main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../activities/passages-data.js"></script>
+    <script src="../activities/questions-data.js"></script>
+    <script src="../activities/activities-data.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>

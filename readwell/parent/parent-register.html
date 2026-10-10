@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Parent sign up | ReadWell</title>
+    <meta name="description" content="Create a ReadWell parent account to add and manage your children's reading profiles.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/public.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-root="../" data-area="public" data-page="parent-register">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" id="site-header"></header>
+
+    <main id="main-content" class="stage" tabindex="-1">
+        <noscript><p class="noscript-note">ReadWell needs JavaScript turned on to work.</p></noscript>
+
+        <p class="wordmark" aria-hidden="true">ReadWell</p>
+
+        <div class="card">
+            <h1 class="card-title">Parent Sign Up</h1>
+
+            <form id="register-form" novalidate>
+                <div class="alert alert-error" id="form-alert" role="alert" hidden>
+                    <strong class="alert-label">Problem:</strong> <span id="form-alert-text"></span>
+                </div>
+
+                <div class="form-field">
+                    <label for="parent-name">Full name</label>
+                    <input type="text" id="parent-name" name="name" autocomplete="name" aria-describedby="parent-name-error" required>
+                    <p class="field-error" id="parent-name-error" hidden></p>
+                </div>
+
+                <div class="form-field">
+                    <label for="parent-email">Email</label>
+                    <input type="email" id="parent-email" name="email" autocomplete="email" aria-describedby="parent-email-error" required>
+                    <p class="field-error" id="parent-email-error" hidden></p>
+                </div>
+
+                <div class="form-field">
+                    <label for="parent-password">Password</label>
+                    <input type="password" id="parent-password" name="password" autocomplete="new-password" aria-describedby="parent-password-hint parent-password-error" required>
+                    <p class="field-hint" id="parent-password-hint">At least 8 characters.</p>
+                    <p class="field-error" id="parent-password-error" hidden></p>
+                </div>
+
+                <div class="form-field">
+                    <label for="parent-confirm">Confirm password</label>
+                    <input type="password" id="parent-confirm" name="confirm" autocomplete="new-password" aria-describedby="parent-confirm-error" required>
+                    <p class="field-error" id="parent-confirm-error" hidden></p>
+                </div>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" id="show-password">
+                    <label for="show-password">Show passwords</label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </div>
+            </form>
+
+            <div class="card-links">
+                <p>Already have an account? <a href="parent-login.html">Log in.</a></p>
+                <p>Are you a student? <a href="../student/student-login.html">Student login</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../js/parent-register.js"></script>
+</body>
+</html>

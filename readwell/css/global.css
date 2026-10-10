@@ -1,0 +1,406 @@
+/* =========================================================
+   ReadWell — site-wide design system
+   One stylesheet for every page: landing, sign-in, dashboards and
+   (in Parts 2 and 3) reading, quiz and progress pages.
+
+   THE LOOK
+   A muted green gradient canvas. Text and controls sit on one of
+   four surfaces. Pick the surface first, then the components:
+
+   1. BAR   translucent dark green: header, footer
+            -> white text            .site-header  .site-footer
+   2. BAND  lighter dark tint: the title strip at the top of a page
+            -> white text            .page-header  .hero
+   3. CARD  light-green panel: all page content
+            -> dark ink text         .card  .tile-list a  .coming-soon
+   4. READING SURFACE  near-white panel for long passages
+            -> dark ink, larger text .reading-surface
+
+   RULES (they exist because of contrast)
+   - Never put small text straight on the gradient. The middle and
+     lower-right of the gradient are too light for white text and too
+     mid-tone for dark text. Use a bar, band or card.
+   - White is only for bars, bands and the huge decorative wordmark.
+   - Reading passages and quiz questions go on .reading-surface,
+     never on the gradient or the translucent card.
+   - Inputs are white with a dark border; buttons are dark green.
+   - Do not rely on colour alone: selected/active states also get a
+     text badge, underline or border change.
+
+   NEW PAGE TEMPLATE (inside a signed-in area)
+     <body data-area="parent|student" data-page="..." data-nav="...">
+       <a class="skip-link" href="#main-content">...</a>
+       <header class="site-header" id="site-header"></header>
+       <main id="main-content" tabindex="-1">
+         <div class="page-header"><div class="container">
+           <h1>Title</h1><p>One-line description.</p>
+         </div></div>
+         <div class="container section-body stack">
+           <section class="card" aria-labelledby="x"><h2 id="x">...</h2>...</section>
+         </div>
+       </main>
+       <footer class="site-footer" id="site-footer"></footer>
+       scripts: data.js, auth.js, layout.js, then the page script
+
+   Contents: 1 Tokens  2 Base  3 Layout  4 Header/Footer  5 Bands
+             6 Cards  7 Buttons  8 Forms  9 Alerts  10 Auth stage
+             11 Landing  12 Dashboards  13 Utilities  14 Responsive
+             15 Reading (library, reader, questions, notes, speech)
+             16 Results and review  17 Accessibility page
+             18 Student display settings (text size, spacing, Dark, High Contrast)
+   ========================================================= */
+
+/* ---------- 1. Tokens ---------- */
+:root {
+    /* Palette */
+    --green-deep: #1F5C48;
+    --green-forest: #245F4E;
+    --green-primary: #347A62;
+    --green-medium: #5D896D;
+    --green-soft: #9EAE80;
+    --green-light: #B8C89A;
+    --white: #FFFFFF;
+
+    /* Text on cards (all 6:1 or better on the card surface) */
+    --ink: #1F2937;
+    --ink-strong: #10281F;
+    --hint: #2C3B30;
+    --link: #08382C;
+    --error: #5E0F0A;
+
+    /* Lines */
+    --field-border: #4D5745;
+    --field-border-hover: #2F3829;
+    --card-line: rgba(60, 70, 55, 0.6);
+    --rule: rgba(60, 70, 55, 0.35);
+
+    /* Component colours. Dark and High Contrast modes (student area) change these. */
+    --canvas-fallback: #66896D;
+    --field-bg: #FFFFFF;
+    --btn-bg: #1F5C48;
+    --btn-bg-hover: #184A3A;
+    --btn-bg-active: #12392C;
+    --btn-text: #FFFFFF;
+    --btn-border: #143F31;
+    --btn2-bg: rgba(255, 255, 255, 0.55);
+    --btn2-hover: #FFFFFF;
+    --focus: #0E2F25;
+    --focus-field: #0E4A37;
+    --alert-bg: #FFFFFF;
+    --alert-text: #6B130D;
+    --alert-ok-text: #0F3A2C;
+    --alert-line: #8C1D14;
+    --ok-line: #1F5C48;
+    --surface-hover: rgba(222, 232, 204, 0.92);
+    --progress-track: rgba(255, 255, 255, 0.6);
+    --progress-fill: linear-gradient(90deg, #1F5C48, #347A62);
+    --disabled-bg: #587363;
+    --disabled-text: #FFFFFF;
+    --disabled-border: #455C4F;
+    --good-bg: #E4F1E8;
+    --good-text: #0F3A2C;
+    --good-line: #1F5C48;
+    --bad-bg: #FBE9E7;
+    --bad-text: #5E0F0A;
+    --bad-line: #8C1D14;
+    --hl-bg: #FFE98A;
+    --hl-text: #10281F;
+
+    /* Reading comfort (student settings change these) */
+    --lh: 1.6;
+    --read-lh: 1.8;
+    --ls: normal;
+    --read-width: 44rem;
+
+    /* Surfaces */
+    --canvas: linear-gradient(135deg, #245F4E 0%, #66896D 42%, #B1C08F 100%);
+    --bar: rgba(12, 44, 34, 0.54);
+    --band: rgba(12, 44, 34, 0.34);
+    --bar-line: rgba(0, 0, 0, 0.25);
+    --surface: rgba(180, 197, 151, 0.75);
+    --surface-item: rgba(255, 255, 255, 0.6);
+    --reading-surface: #FAFCF7;
+
+    /* Spacing scale: 8 12 16 24 32 48 64 */
+    --s-1: 8px;
+    --s-2: 12px;
+    --s-3: 16px;
+    --s-4: 24px;
+    --s-5: 32px;
+    --s-6: 48px;
+    --s-7: 64px;
+
+    --radius-card: 20px;
+    --radius-input: 16px;
+    --radius-btn: 14px;
+    --radius-chip: 12px;
+
+    --container: 1200px;
+    --gutter: clamp(16px, 4vw, 48px);
+
+    --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ---------- 2. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+/* The student area uses larger type everywhere (all sizes are rem). */
+html.area-student { font-size: 112.5%; }
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0;
+    font-family: var(--font);
+    font-size: 1rem;
+    line-height: var(--lh);
+    letter-spacing: var(--ls);
+    color: var(--ink);
+    background-color: var(--canvas-fallback);
+    background-image: var(--canvas);
+}
+
+main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+main:focus, [tabindex="-1"]:focus { outline: none; }
+
+img, svg { max-width: 100%; height: auto; }
+
+h1, h2, h3, h4 {
+    margin: 0 0 0.5em;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--ink-strong);
+}
+h1 { font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem); }
+h2 { font-size: clamp(1.375rem, 1.2rem + 0.9vw, 1.75rem); }
+h3 { font-size: 1.25rem; }
+
+p { margin: 0 0 1em; }
+
+a {
+    color: var(--link);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+a:hover { color: #041F18; }
+
+:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+}
+.site-header :focus-visible,
+.site-footer :focus-visible,
+.page-header :focus-visible,
+.hero-copy :focus-visible,
+.skip-link:focus-visible { outline-color: #FFFFFF; }
+
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ---------- 3. Layout ---------- */
+.container {
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+}
+.section-body { padding-top: var(--s-5); padding-bottom: var(--s-7); }
+.stack > * + * { margin-top: var(--s-4); }
+
+.skip-link {
+    position: absolute;
+    left: 8px;
+    top: -60px;
+    z-index: 100;
+    padding: 10px 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-decoration: none;
+    background: var(--green-deep);
+    border: 2px solid #FFFFFF;
+    border-radius: var(--radius-chip);
+}
+.skip-link:focus { top: 8px; }
+.skip-link:hover { color: #FFFFFF; }
+
+/* ---------- 4. Header / Footer (bar surface) ---------- */
+.site-header {
+    background: var(--bar);
+    border-bottom: 1px solid var(--bar-line);
+}
+.header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-1) var(--s-3);
+    min-height: 80px;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.brand:hover { color: #FFFFFF; }
+.brand-icon { flex-shrink: 0; width: 1.15em; height: 1.15em; }
+
+.area-label {
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+}
+
+.primary-nav { margin-left: auto; }
+.nav-list {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.nav-list a,
+.nav-list .nav-button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: var(--s-1) var(--s-3);
+    font-family: inherit;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-decoration: none;
+    background: none;
+    border: 0;
+    border-radius: var(--radius-chip);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+.nav-list a:hover,
+.nav-list .nav-button:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.08);
+    text-decoration: underline;
+    text-underline-offset: 6px;
+}
+/* Active page: a solid white pill with dark text (a light tint behind white text would fail contrast). */
+.nav-list a[aria-current="page"] {
+    font-weight: 700;
+    color: var(--green-deep);
+    text-decoration: none;
+    background: #FFFFFF;
+}
+.nav-list a[aria-current="page"]:hover { color: var(--green-deep); background: #FFFFFF; text-decoration: none; }
+.nav-list .nav-button {
+    margin-left: var(--s-1);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.menu-toggle {
+    display: none;
+    margin-left: auto;
+    min-height: 44px;
+    padding: 0 var(--s-3);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: var(--radius-chip);
+    cursor: pointer;
+}
+
+.site-footer {
+    flex-shrink: 0;
+    padding: var(--s-3) var(--gutter);
+    font-size: 0.875rem;
+    color: #FFFFFF;
+    text-align: center;
+    background: var(--bar);
+    border-top: 1px solid var(--bar-line);
+}
+.site-footer p { margin: 0; }
+
+/* ---------- 5. Bands (page title strip) ---------- */
+.page-header,
+.hero {
+    color: #FFFFFF;
+    background: var(--band);
+    border-bottom: 1px solid var(--bar-line);
+}
+.page-header { padding: clamp(32px, 5vw, 56px) 0; }
+.page-header h1 {
+    margin: 0 0 var(--s-1);
+    font-size: clamp(2rem, 1.5rem + 2.4vw, 3.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    overflow-wrap: anywhere;
+}
+.page-header p {
+    max-width: 40rem;
+    margin: 0;
+    font-size: 1.125rem;
+    color: #FFFFFF;
+}
+
+
+/* ---------- 13. Utilities ---------- */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.text-secondary { color: var(--hint); }
+
+
+/* Student turned on "Reduce motion" in their accessibility settings */
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+}

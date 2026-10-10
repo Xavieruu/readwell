@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="area-student">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student dashboard | ReadWell</title>
+    <meta name="description" content="Your ReadWell home: reading, progress, bookmarks and settings.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/reading.css">
+    <link rel="stylesheet" href="../css/student.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-root="../" data-area="student" data-page="home">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" id="site-header"></header>
+
+    <main id="main-content" tabindex="-1">
+        <noscript><p class="noscript-note">ReadWell needs JavaScript turned on to work.</p></noscript>
+
+        <div class="page-header">
+            <div class="container">
+                <h1 id="home-title" tabindex="-1">Hi!</h1>
+                <p>What would you like to do today?</p>
+            </div>
+        </div>
+        <div class="container section-body stack">
+            <!-- Continue an unfinished story, or the next suggestion -->
+            <section class="card" id="next-card" aria-labelledby="next-heading" hidden>
+                <h2 id="next-heading">Up next</h2>
+                <p id="next-text"></p>
+                <p class="story-meta" id="next-meta"></p>
+                <a class="btn btn-primary" id="next-link" href="reading.html">Open</a>
+            </section>
+
+            <ul class="tile-list">
+                <li>
+                    <a href="reading.html">
+                        <span class="tile-title">Reading Activities</span>
+                        <span class="tile-desc" id="tile-reading-desc">Read a story and answer questions.</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="progress.html">
+                        <span class="tile-title">Progress</span>
+                        <span class="tile-desc">See your scores, skills and what to practice next.</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bookmarks.html">
+                        <span class="tile-title">Bookmarks</span>
+                        <span class="tile-desc" id="tile-bookmarks-desc">Stories you saved to read again.</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="activity-history.html">
+                        <span class="tile-title">Activity History</span>
+                        <span class="tile-desc">Every attempt you have finished.</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="accessibility.html">
+                        <span class="tile-title">Accessibility</span>
+                        <span class="tile-desc">Text size, spacing, colors, motion and reading aloud.</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <span class="tile-title">My Profile</span>
+                        <span class="tile-desc">Your name, username and reading timer.</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../activities/passages-data.js"></script>
+    <script src="../activities/questions-data.js"></script>
+    <script src="../activities/activities-data.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/questions.js"></script>
+    <script src="../js/progress.js"></script>
+    <script src="../js/recommendations.js"></script>
+    <script src="../js/student-dashboard.js"></script>
+</body>
+</html>

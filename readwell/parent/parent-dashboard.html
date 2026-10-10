@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Parent dashboard | ReadWell</title>
+    <meta name="description" content="See your child's reading activity and progress.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/parent.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-root="../" data-area="parent" data-page="dashboard">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" id="site-header"></header>
+
+    <main id="main-content" tabindex="-1">
+        <noscript><p class="noscript-note">ReadWell needs JavaScript turned on to work.</p></noscript>
+
+        <!-- Child chooser: everything below belongs to the child chosen here -->
+        <div class="chooser-bar" id="chooser-bar" hidden>
+            <div class="container">
+                <div class="field-row">
+                    <label for="child-select">Viewing:</label>
+                    <select id="child-select"></select>
+                </div>
+            </div>
+        </div>
+
+        <!-- No children yet -->
+        <section id="no-children" aria-labelledby="no-children-title" hidden>
+            <div class="page-header">
+                <div class="container">
+                    <h1 id="no-children-title" tabindex="-1">Welcome</h1>
+                    <p>Add a child profile to start seeing reading activity here.</p>
+                </div>
+            </div>
+            <div class="container section-body">
+                <div class="card empty-card">
+                    <h2>No children yet</h2>
+                    <p>Add a child profile to create their student username and PIN.</p>
+                    <a class="btn btn-primary" href="add-child.html">+ Add Child</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard -->
+        <section data-section="dashboard" data-title="Parent dashboard" aria-labelledby="dashboard-title">
+            <div class="page-header">
+                <div class="container">
+                    <h1 id="dashboard-title">Welcome</h1>
+                    <p id="dashboard-sub">A summary of your child's reading.</p>
+                </div>
+            </div>
+            <div class="container section-body stack">
+                <section class="card" aria-labelledby="sum-heading">
+                    <h2 id="sum-heading">Activity summary</h2>
+                    <p id="sum-sentence"></p>
+                    <ul class="stat-grid" id="sum-stats"></ul>
+                </section>
+                <section class="card" aria-labelledby="skills-heading">
+                    <h2 id="skills-heading">Skills</h2>
+                    <h3>Recently practiced</h3>
+                    <p id="skills-practiced"></p>
+                    <h3>Skills that may need additional practice</h3>
+                    <p id="skills-extra"></p>
+                    <p class="field-hint">These are study hints based on practice answers. They are not a test result or an assessment of ability.</p>
+                </section>
+                <section class="card" aria-labelledby="rec-heading" id="rec-card" hidden>
+                    <h2 id="rec-heading">Suggested next activity</h2>
+                    <p id="rec-text"></p>
+                </section>
+            </div>
+        </section>
+
+        <!-- Activity -->
+        <section data-section="activity" data-title="Activity" aria-labelledby="activity-title" hidden>
+            <div class="page-header">
+                <div class="container">
+                    <h1 id="activity-title">Activity</h1>
+                    <p id="activity-sub">Recent reading activity.</p>
+                </div>
+            </div>
+            <div class="container section-body stack">
+                <div class="card empty-card" id="activity-empty" hidden>
+                    <h2>No activity yet</h2>
+                    <p>Once your child finishes a reading activity, it will be listed here.</p>
+                </div>
+                <section class="card" id="activity-card" aria-labelledby="recent-heading" hidden>
+                    <h2 id="recent-heading">Recent activities</h2>
+                    <ul class="story-list" id="recent-list"></ul>
+                </section>
+                <section class="card" id="improve-card" aria-labelledby="improve-heading" hidden>
+                    <h2 id="improve-heading">Recent improvements</h2>
+                    <p class="field-hint">Compares each practice attempt with the original attempt of the same story.</p>
+                    <ul class="plain-list" id="improve-list"></ul>
+                </section>
+            </div>
+        </section>
+
+        <!-- Progress -->
+        <section data-section="progress" data-title="Progress" aria-labelledby="progress-title" hidden>
+            <div class="page-header">
+                <div class="container">
+                    <h1 id="progress-title">Progress</h1>
+                    <p id="progress-sub">How your child is doing over time.</p>
+                </div>
+            </div>
+            <div class="container section-body stack">
+                <div class="card empty-card" id="progress-empty" hidden>
+                    <h2>No progress yet</h2>
+                    <p>Progress shows after your child finishes a reading activity.</p>
+                </div>
+                <div id="progress-content" class="stack" hidden>
+                    <section class="card" aria-labelledby="pr-heading">
+                        <h2 id="pr-heading">Scores</h2>
+                        <ul class="stat-grid" id="pr-stats"></ul>
+                    </section>
+                    <section class="card" aria-labelledby="pr-skills-heading">
+                        <h2 id="pr-skills-heading">Accuracy by skill</h2>
+                        <ul class="skill-list" id="pr-skills"></ul>
+                    </section>
+                    <section class="card" aria-labelledby="pr-saved-heading">
+                        <h2 id="pr-saved-heading">Saved stories</h2>
+                        <p id="pr-saved"></p>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../activities/passages-data.js"></script>
+    <script src="../activities/questions-data.js"></script>
+    <script src="../activities/activities-data.js"></script>
+    <script src="../js/questions.js"></script>
+    <script src="../js/progress.js"></script>
+    <script src="../js/recommendations.js"></script>
+    <script src="../js/parent.js"></script>
+</body>
+</html>

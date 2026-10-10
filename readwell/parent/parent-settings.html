@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Settings | ReadWell</title>
+    <meta name="description" content="Manage your account and student logins.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/parent.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-root="../" data-area="parent" data-page="settings">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" id="site-header"></header>
+
+    <main id="main-content" tabindex="-1">
+        <noscript><p class="noscript-note">ReadWell needs JavaScript turned on to work.</p></noscript>
+
+        <div class="page-header">
+            <div class="container">
+                <h1 id="page-title" tabindex="-1">Settings</h1>
+                <p>Your account and your children's student logins.</p>
+            </div>
+        </div>
+        <div class="container section-body stack">
+
+            <section class="card" aria-labelledby="h-account">
+                <h2 id="h-account">Your account</h2>
+                <dl class="details">
+                    <dt>Name</dt><dd id="account-name"></dd>
+                    <dt>Email</dt><dd id="account-email"></dd>
+                    <dt>Recovery code</dt><dd id="account-recovery"></dd>
+                </dl>
+                <p class="field-hint">You need your recovery code to reset your password. Keep it somewhere safe.</p>
+            </section>
+
+            <section class="card" aria-labelledby="h-email">
+                <h2 id="h-email">Change email</h2>
+                <form id="email-form" novalidate>
+                    <div class="alert alert-error" id="email-alert" role="alert" hidden><strong class="alert-label">Could not save.</strong> <span id="email-alert-text"></span></div>
+                    <p>Current email: <strong id="current-email"></strong></p>
+                        <div class="form-field">
+                            <label for="new-email">New email</label>
+                            <input type="email" id="new-email" autocomplete="email">
+                            <p class="field-error" id="new-email-error" hidden></p>
+                        </div>
+                        <div class="form-field">
+                            <label for="email-password">Current password</label>
+                            <input type="password" id="email-password" autocomplete="current-password">
+                            <p class="field-hint">We ask for your password to make sure it is really you.</p>
+                            <p class="field-error" id="email-password-error" hidden></p>
+                        </div>
+                    <div class="form-actions"><button type="submit" class="btn btn-primary">Save changes</button></div>
+                    <p class="save-note" id="email-note" role="status"></p>
+                </form>
+            </section>
+
+            <section class="card" aria-labelledby="h-password">
+                <h2 id="h-password">Change password</h2>
+                <form id="password-form" novalidate>
+                    <div class="alert alert-error" id="password-alert" role="alert" hidden><strong class="alert-label">Could not save.</strong> <span id="password-alert-text"></span></div>
+                        <div class="form-field">
+                            <label for="current-password">Current password</label>
+                            <input type="password" id="current-password" autocomplete="current-password">
+                            <p class="field-error" id="current-password-error" hidden></p>
+                        </div>
+                        <div class="form-field">
+                            <label for="new-password">New password</label>
+                            <input type="password" id="new-password" autocomplete="new-password">
+                            <p class="field-hint">At least 8 characters.</p>
+                            <p class="field-error" id="new-password-error" hidden></p>
+                        </div>
+                        <div class="form-field">
+                            <label for="confirm-password">Confirm new password</label>
+                            <input type="password" id="confirm-password" autocomplete="new-password">
+                            <p class="field-error" id="confirm-password-error" hidden></p>
+                        </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="show-passwords">
+                        <label for="show-passwords">Show passwords</label>
+                    </div>
+                    <div class="form-actions"><button type="submit" class="btn btn-primary">Change password</button></div>
+                    <p class="save-note" id="password-note" role="status"></p>
+                </form>
+            </section>
+
+            <section aria-labelledby="h-students" id="students" class="stack">
+                <h2 id="h-students" class="section-title">Student account management</h2>
+                <p>Each child signs in with a username and a 4-digit PIN. ReadWell keeps only a scrambled copy of a PIN for sign-in. The default PIN shown here was made by ReadWell. If you choose your own PIN, it is not shown again.</p>
+                <div id="student-accounts" class="stack"></div>
+            </section>
+
+            <div><button type="button" class="btn btn-secondary" id="logout">Logout</button></div>
+        </div>
+
+    </main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../js/parent-settings.js"></script>
+</body>
+</html>
