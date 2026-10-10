@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" class="area-student">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accessibility | ReadWell</title>
+    <meta name="description" content="Change text size, spacing, colors and reading speed so reading is comfortable for you.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/reading.css">
+    <link rel="stylesheet" href="../css/student.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-root="../" data-area="student" data-page="accessibility" data-nav="settings">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" id="site-header"></header>
+
+    <main id="main-content" tabindex="-1">
+        <noscript><p class="noscript-note">ReadWell needs JavaScript turned on to work.</p></noscript>
+
+        <div class="page-header">
+            <div class="container">
+                <h1 id="page-title" tabindex="-1">Accessibility</h1>
+                <p>Make reading comfortable for you. Your choices are saved and used on every page.</p>
+            </div>
+        </div>
+
+        <div class="container section-body stack">
+            <section class="card" aria-labelledby="preset-heading">
+                <h2 id="preset-heading">Reading presets</h2>
+                <fieldset class="choice-fieldset">
+                    <legend class="visually-hidden">Reading preset</legend>
+                    <div class="preset-grid" id="preset-grid"></div>
+                </fieldset>
+                <p class="field-hint" id="preset-current"></p>
+                <p class="field-hint">You can still change each setting below. Then the preset shows as Custom.</p>
+            </section>
+
+            <section class="card" aria-labelledby="custom-heading">
+                <h2 id="custom-heading">Your own settings</h2>
+                <div id="setting-groups"></div>
+                <div class="button-row">
+                    <button type="button" class="btn btn-secondary" id="reset-button">Reset to standard</button>
+                </div>
+                <p class="save-note" id="save-note" role="status"></p>
+            </section>
+
+            <section class="card" aria-labelledby="preview-heading">
+                <h2 id="preview-heading">Preview</h2>
+                <div class="reading-surface preview">
+                    <div class="passage-text">
+                        <p>The little tortoise kept walking. He did not stop, not even to rest. When the hare woke up, the tortoise was almost at the finish line.</p>
+                    </div>
+                </div>
+                <h3 style="margin-top:24px">Listen to a sample</h3>
+                <p class="field-hint">Your computer or tablet reads the words out loud. It only starts when you press Play.</p>
+                <div id="tts-sample"></div>
+            </section>
+
+            <p><a href="profile.html">Back to My Profile</a></p>
+        </div>
+    </main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../activities/passages-data.js"></script>
+    <script src="../activities/questions-data.js"></script>
+    <script src="../activities/activities-data.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/tts.js"></script>
+    <script src="../js/accessibility.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student login | ReadWell</title>
+    <meta name="description" content="Students log in to ReadWell with the username and PIN their parent created.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/public.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-root="../" data-area="public" data-page="student-login">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" id="site-header"></header>
+
+    <main id="main-content" class="stage" tabindex="-1">
+        <noscript><p class="noscript-note">ReadWell needs JavaScript turned on to work.</p></noscript>
+
+        <p class="wordmark" aria-hidden="true">ReadWell</p>
+
+        <div class="card">
+            <h1 class="card-title">Student Login</h1>
+
+            <form id="student-form" novalidate>
+                <div class="alert alert-error" id="form-alert" role="alert" hidden>
+                    <strong class="alert-label">Problem:</strong> <span id="form-alert-text"></span>
+                </div>
+
+                <div class="form-field">
+                    <label for="student-username">Username</label>
+                    <input type="text" id="student-username" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" aria-describedby="student-username-error" required>
+                    <p class="field-error" id="student-username-error" hidden></p>
+                </div>
+
+                <div class="form-field">
+                    <label for="student-pin">PIN</label>
+                    <input type="password" id="student-pin" name="pin" inputmode="numeric" maxlength="4" autocomplete="off" aria-describedby="student-pin-hint student-pin-error" required>
+                    <p class="field-hint" id="student-pin-hint">4 numbers.</p>
+                    <p class="field-error" id="student-pin-error" hidden></p>
+                </div>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" id="show-pin">
+                    <label for="show-pin">Show PIN</label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Log In</button>
+                    <a class="link-subtle" href="../parent/account-recovery.html?type=student">Forgot your account code?</a>
+                </div>
+            </form>
+
+            <div class="card-links">
+                <p>Are you a parent? <a href="../parent/parent-login.html">Parent Login</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../js/student-login.js"></script>
+</body>
+</html>

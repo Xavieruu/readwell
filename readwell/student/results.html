@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" class="area-student">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Results | ReadWell</title>
+    <meta name="description" content="Your score, hints and the reading skills you practiced.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/reading.css">
+    <link rel="stylesheet" href="../css/student.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-root="../" data-area="student" data-page="results" data-nav="progress">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" id="site-header"></header>
+
+    <main id="main-content" tabindex="-1">
+        <noscript><p class="noscript-note">ReadWell needs JavaScript turned on to work.</p></noscript>
+
+        <section id="results-view" aria-labelledby="results-title" hidden>
+            <div class="page-header">
+                <div class="container">
+                    <h1 id="results-title" tabindex="-1">Results</h1>
+                    <p id="results-sub"></p>
+                </div>
+            </div>
+            <div class="container section-body stack">
+
+                <section class="card" aria-labelledby="score-heading">
+                    <h2 id="score-heading">Your score</h2>
+                    <div class="score-hero">
+                        <span class="score-number" id="score-number">0%</span>
+                        <p id="score-text"></p>
+                    </div>
+                    <div class="meter" id="score-meter" role="img" aria-label="Score"><div class="meter-fill" id="score-fill" style="width:0%"></div></div>
+                    <p class="field-hint">A question counts as correct when your first answer is right. Try Again helps you learn, but it does not change your score.</p>
+                    <ul class="stat-grid" style="margin-top:24px">
+                        <li class="stat"><span class="stat-number" id="stat-total">0</span><span class="stat-label">Questions</span></li>
+                        <li class="stat"><span class="stat-number" id="stat-correct">0</span><span class="stat-label">Correct</span></li>
+                        <li class="stat"><span class="stat-number" id="stat-incorrect">0</span><span class="stat-label">Incorrect</span></li>
+                        <li class="stat"><span class="stat-number" id="stat-hints">0</span><span class="stat-label">Hints used</span></li>
+                    </ul>
+                </section>
+
+                <section class="card" aria-labelledby="skills-heading">
+                    <h2 id="skills-heading">Skills you practiced</h2>
+                    <ul class="skill-list" id="skill-list"></ul>
+                </section>
+
+                <section class="card" id="compare-card" aria-labelledby="compare-heading" hidden>
+                    <h2 id="compare-heading">Original and practice</h2>
+                    <div class="compare" id="compare-rows"></div>
+                    <p id="compare-text"></p>
+                </section>
+
+                <section class="card" id="rec-card" aria-labelledby="rec-heading" hidden>
+                    <h2 id="rec-heading">Recommended for you</h2>
+                    <p id="rec-text"></p>
+                    <p id="rec-skill"></p>
+                    <div class="button-row"><a class="btn btn-primary" id="rec-link" href="reading.html">Open this activity</a></div>
+                </section>
+
+                <section class="card" aria-labelledby="next-heading">
+                    <h2 id="next-heading">What next?</h2>
+                    <div class="button-row">
+                        <a class="btn btn-primary" id="review-link" href="review.html">Review your answers</a>
+                        <a class="btn btn-secondary" id="retry-link" href="reading.html">Try Again (practice attempt)</a>
+                        <a class="btn btn-secondary" id="more-link" href="reading.html">Choose another story</a>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section id="notice-view" hidden>
+            <div class="page-header"><div class="container"><h1 tabindex="-1" id="notice-title">Results not found</h1></div></div>
+            <div class="container section-body">
+                <div class="card card-narrow">
+                    <p id="notice-text">We could not find those results.</p>
+                    <p><a id="notice-link" href="reading.html">Go to Reading Activities</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../activities/passages-data.js"></script>
+    <script src="../activities/questions-data.js"></script>
+    <script src="../activities/activities-data.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/questions.js"></script>
+    <script src="../js/progress.js"></script>
+    <script src="../js/recommendations.js"></script>
+    <script src="../js/results.js"></script>
+</body>
+</html>
