@@ -1,0 +1,105 @@
+/* ReadWell — icons and gentle motion
+   Everything here is small and calm. All animation is switched off by the
+   "prefers-reduced-motion" rule and the student's "Reduced motion" setting
+   (both in global.css use `animation: none !important`), so the starting
+   states below live INSIDE the keyframes only. */
+
+/* ---------- icons ---------- */
+.icon { display: inline-block; width: 1.25em; height: 1.25em; flex-shrink: 0; vertical-align: -0.2em; }
+
+/* A round green chip that holds an icon (dashboard tiles, steps, stats) */
+.icon-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--s-2);
+    color: #FFFFFF;
+    background: var(--green-deep);
+    border-radius: 14px;
+}
+.icon-chip .icon { width: 26px; height: 26px; }
+.icon-chip-sm { width: 40px; height: 40px; margin: 0; border-radius: 12px; }
+.icon-chip-sm .icon { width: 22px; height: 22px; }
+
+/* ---------- entrance: cards and items rise in, one after another ---------- */
+@keyframes rw-rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+}
+.card, .tile-list li, .stat, .story-card, .ach, .child-item {
+    animation: rw-rise 0.5s ease-out both;
+}
+.stack > *:nth-child(2), .tile-list li:nth-child(2), .stat:nth-child(2) { animation-delay: 0.06s; }
+.stack > *:nth-child(3), .tile-list li:nth-child(3), .stat:nth-child(3) { animation-delay: 0.12s; }
+.stack > *:nth-child(4), .tile-list li:nth-child(4), .stat:nth-child(4) { animation-delay: 0.18s; }
+.stack > *:nth-child(5), .tile-list li:nth-child(5), .stat:nth-child(5) { animation-delay: 0.24s; }
+.stack > *:nth-child(n+6), .tile-list li:nth-child(n+6) { animation-delay: 0.3s; }
+
+/* ---------- progress bars grow from the left ---------- */
+@keyframes rw-grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}
+.meter-fill, .progress-fill { transform-origin: left center; animation: rw-grow 0.9s 0.2s ease-out both; }
+
+/* ---------- dashboard tiles lift a little on hover ---------- */
+.tile-list a { transition: transform 0.18s ease, background-color 0.15s ease, border-color 0.15s ease; }
+.tile-list a:hover { transform: translateY(-3px); }
+.tile-list a:hover .icon-chip { animation: rw-wiggle 0.5s ease; }
+@keyframes rw-wiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-8deg) scale(1.06); }
+    60% { transform: rotate(6deg) scale(1.06); }
+}
+.signin-list a { transition: transform 0.18s ease, background-color 0.15s ease, border-color 0.15s ease; }
+.signin-list a:hover { transform: translateX(4px); }
+
+/* ---------- floating illustrations (landing page, empty states) ---------- */
+@keyframes rw-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+}
+@keyframes rw-twinkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.45; transform: scale(0.8); }
+}
+@keyframes rw-turn {
+    0%, 100% { transform: rotate(0); }
+    50%      { transform: rotate(-6deg); }
+}
+.art { display: block; width: 100%; height: auto; }
+.art-float { animation: rw-float 4.5s ease-in-out infinite; }
+.art-twinkle { transform-box: fill-box; transform-origin: center; animation: rw-twinkle 2.6s ease-in-out infinite; }
+.art-twinkle.d2 { animation-delay: 0.8s; }
+.art-twinkle.d3 { animation-delay: 1.6s; }
+.art-page { transform-box: fill-box; transform-origin: left center; animation: rw-turn 4.5s ease-in-out infinite; }
+
+/* Lottie slots: the inline SVG inside is the fallback until an animation file is found */
+.lottie-slot { display: block; width: 100%; max-width: 280px; margin: 0 auto var(--s-3); }
+.lottie-slot svg { display: block; width: 100%; height: auto; }
+.hero-art { width: min(100%, 360px); margin: 0 0 var(--s-4); }
+
+/* ---------- earned achievement and score celebration ---------- */
+@keyframes rw-pop {
+    0%   { transform: scale(0.4); opacity: 0; }
+    70%  { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); }
+}
+.ach.is-earned .badge { animation: rw-pop 0.5s 0.3s ease-out both; }
+.score-number { animation: rw-pop 0.6s ease-out both; }
+
+/* Buttons press down slightly */
+.btn:active { transform: translateY(1px); }
+
+/* Colours of the book picture. Light surfaces use the defaults; the green hero band overrides them. */
+.art-book { --art-cover: var(--green-deep); --art-page: #FFFFFF; --art-line: #AEB9B3; --art-star: #E8B64C; }
+.hero .art-book { --art-cover: #CFE5D8; --art-line: #8FB5A0; --art-star: #FFD97A; }
+.art-cover { fill: var(--art-cover); }
+.art-pages { fill: var(--art-page); }
+.art-line { fill: none; stroke: var(--art-line); stroke-width: 3; stroke-linecap: round; }
+.art-star { fill: var(--art-star); }
+
+.empty-card .lottie-slot { max-width: 180px; }
+.lottie-slot [hidden] { display: none; }

@@ -83,3 +83,26 @@ SECURITY NOTES FOR PART 4
     default PIN; a PIN the parent chooses is never shown again. In a real backend store only
     a slow hash (bcrypt/argon2) and show a new PIN once instead of keeping a viewable one.
   - Parent email change and password change both require the current password.
+
+
+=========================================================
+REDESIGN NOTES (wider layout, icons, animation)
+=========================================================
+New files
+  css/animations.css          icon chips, entrance/hover motion, art colours
+  js/icons.js                 inline SVG icon set (RW.icons) + animated book art
+  js/lottie-slots.js          optional Lottie player for <div data-lottie="...">
+  assets/vendor/              lottie-web (light build) + its licence
+  assets/animations/          put your LottieFiles .json files here
+
+Layout: --container (1840px) and --gutter in css/global.css control page width.
+Colours: green gradient page, dark green header/footer with white text,
+cards in soft white/grey with one fixed dark ink colour (--ink).
+
+Adding LottieFiles animations
+  1. Download a free "Lottie JSON" file from lottiefiles.com.
+  2. Save it as assets/animations/hero-book.json (home page hero)
+     or assets/animations/empty.json (empty states).
+  3. Deploy. If the file is missing or the page is opened as file://, the
+     built-in animated SVG is shown instead. Lottie only plays over http(s)
+     (for example on Vercel). Animations pause when Reduced motion is on.

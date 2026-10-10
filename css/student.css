@@ -143,3 +143,6 @@ html[data-mode="contrast"] .btn-primary:hover { color: #000000; }
 .ach-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-1) var(--s-2); }
 .ach-head strong { color: var(--ink-strong); font-size: 1.0625rem; }
 .ach-note { color: var(--hint); font-size: 0.9375rem; }
+
+/* ---------- Dashboard tiles: icon on top ---------- */
+.tile-list .icon-chip { margin-bottom: var(--s-2); }

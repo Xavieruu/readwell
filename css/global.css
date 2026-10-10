@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 /* =========================================================
    ReadWell — site-wide design system
    One stylesheet for every page: landing, sign-in, dashboards and
@@ -62,17 +63,17 @@
     --white: #FFFFFF;
 
     /* Text on cards (all 6:1 or better on the card surface) */
-    --ink: #1F2937;
-    --ink-strong: #10281F;
-    --hint: #2C3B30;
+    --ink: #1B2430;
+    --ink-strong: #0E1A14;
+    --hint: #44514A;
     --link: #08382C;
     --error: #5E0F0A;
 
     /* Lines */
-    --field-border: #4D5745;
-    --field-border-hover: #2F3829;
-    --card-line: rgba(60, 70, 55, 0.6);
-    --rule: rgba(60, 70, 55, 0.35);
+    --field-border: #5A6760;
+    --field-border-hover: #2F3B35;
+    --card-line: #CBD3CE;
+    --rule: #D5DCD8;
 
     /* Component colours. Dark and High Contrast modes (student area) change these. */
     --canvas-fallback: #66896D;
@@ -82,7 +83,7 @@
     --btn-bg-active: #12392C;
     --btn-text: #FFFFFF;
     --btn-border: #143F31;
-    --btn2-bg: rgba(255, 255, 255, 0.55);
+    --btn2-bg: #FFFFFF;
     --btn2-hover: #FFFFFF;
     --focus: #0E2F25;
     --focus-field: #0E4A37;
@@ -91,8 +92,8 @@
     --alert-ok-text: #0F3A2C;
     --alert-line: #8C1D14;
     --ok-line: #1F5C48;
-    --surface-hover: rgba(222, 232, 204, 0.92);
-    --progress-track: rgba(255, 255, 255, 0.6);
+    --surface-hover: #FFFFFF;
+    --progress-track: #DCE3DF;
     --progress-fill: linear-gradient(90deg, #1F5C48, #347A62);
     --disabled-bg: #587363;
     --disabled-text: #FFFFFF;
@@ -117,9 +118,9 @@
     --bar: rgba(12, 44, 34, 0.54);
     --band: rgba(12, 44, 34, 0.34);
     --bar-line: rgba(0, 0, 0, 0.25);
-    --surface: rgba(180, 197, 151, 0.75);
-    --surface-item: rgba(255, 255, 255, 0.6);
-    --reading-surface: #FAFCF7;
+    --surface: #F7F9F8;           /* cards: soft white */
+    --surface-item: #EAEFEC;      /* items inside cards: light gray */
+    --reading-surface: #FFFFFF;   /* long passages: pure white */
 
     /* Spacing scale: 8 12 16 24 32 48 64 */
     --s-1: 8px;
@@ -135,10 +136,10 @@
     --radius-btn: 14px;
     --radius-chip: 12px;
 
-    --container: 1200px;
-    --gutter: clamp(16px, 4vw, 48px);
+    --container: 1840px;          /* wide: pages use almost the full window */
+    --gutter: clamp(14px, 2.4vw, 40px);
 
-    --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
@@ -225,7 +226,7 @@ a:hover { color: #041F18; }
     padding: 0 var(--gutter);
 }
 .section-body { padding-top: var(--s-5); padding-bottom: var(--s-7); }
-.stack > * + * { margin-top: var(--s-4); }
+.stack.stack > * + * { margin-top: var(--s-4); }   /* doubled class so list margins never remove the gap */
 
 .skip-link {
     position: absolute;
@@ -253,17 +254,17 @@ a:hover { color: #041F18; }
     flex-wrap: wrap;
     align-items: center;
     gap: var(--s-1) var(--s-3);
-    min-height: 80px;
+    min-height: 64px;
     max-width: var(--container);
     margin: 0 auto;
-    padding: 0 var(--gutter);
+    padding: 6px var(--gutter);
 }
 
 .brand {
     display: inline-flex;
     align-items: center;
     gap: var(--s-2);
-    font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem);
+    font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
     font-weight: 800;
     letter-spacing: -0.02em;
     line-height: 1;
@@ -298,25 +299,26 @@ a:hover { color: #041F18; }
 .nav-list .nav-button {
     display: inline-flex;
     align-items: center;
+    gap: 8px;
     min-height: 44px;
-    padding: var(--s-1) var(--s-3);
+    padding: 6px 14px;
     font-family: inherit;
-    font-size: 1.0625rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #FFFFFF;
     text-decoration: none;
     background: none;
     border: 0;
-    border-radius: var(--radius-chip);
+    border-radius: 999px;
     cursor: pointer;
     transition: background-color 0.15s ease;
 }
+.nav-list .icon { width: 20px; height: 20px; flex-shrink: 0; }
 .nav-list a:hover,
 .nav-list .nav-button:hover {
     color: #FFFFFF;
-    background: rgba(255, 255, 255, 0.08);
-    text-decoration: underline;
-    text-underline-offset: 6px;
+    background: rgba(255, 255, 255, 0.14);
+    text-decoration: none;
 }
 /* Active page: a solid white pill with dark text (a light tint behind white text would fail contrast). */
 .nav-list a[aria-current="page"] {
@@ -329,6 +331,7 @@ a:hover { color: #041F18; }
 .nav-list .nav-button {
     margin-left: var(--s-1);
     border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 999px;
 }
 
 .menu-toggle {

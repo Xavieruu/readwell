@@ -19,6 +19,10 @@
     .primary-nav:not(.is-compact) .nav-list .nav-button { justify-content: center; margin: var(--s-1) 0 0; }
 }
 
+@media (max-width: 1100px) {
+    .tile-list { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 1000px) {
     .reader-grid { grid-template-columns: minmax(0, 1fr); }
 }

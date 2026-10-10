@@ -7,6 +7,7 @@
     <meta name="description" content="ReadWell is a calm, accessible reading comprehension website. Parents create accounts and set up a profile for each child.">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/public.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
@@ -30,22 +31,27 @@
                     <p class="hero-note">Students do not sign themselves up. A parent adds each child and gives them a username and PIN.</p>
                 </div>
 
+                <div class="hero-side">
+                <div class="lottie-slot hero-art" data-lottie="assets/animations/hero-book.json" data-art="book"></div>
                 <div class="card">
                     <h2 class="card-title">Sign in</h2>
                     <ul class="signin-list">
                         <li>
                             <a href="parent/parent-login.html">
-                                <span class="signin-title">Parent Login</span>
-                                <span class="signin-desc">Manage your children and see their information.</span>
+                                <span class="icon-chip icon-chip-sm" data-icon="users"></span>
+                                <span class="signin-text"><span class="signin-title">Parent Login</span>
+                                <span class="signin-desc">Manage your children and see their information.</span></span>
                             </a>
                         </li>
                         <li>
                             <a href="student/student-login.html">
-                                <span class="signin-title">Student Login</span>
-                                <span class="signin-desc">Use the username and PIN your parent gave you.</span>
+                                <span class="icon-chip icon-chip-sm" data-icon="book"></span>
+                                <span class="signin-text"><span class="signin-title">Student Login</span>
+                                <span class="signin-desc">Use the username and PIN your parent gave you.</span></span>
                             </a>
                         </li>
                     </ul>
+                </div>
                 </div>
             </div>
         </section>
@@ -56,14 +62,17 @@
                 <p>One parent account can look after several children. Each child gets their own space.</p>
                 <ol class="steps-list">
                     <li>
+                        <span class="icon-chip" data-icon="mail"></span>
                         <h3>Create a parent account</h3>
                         <p>Sign up with your name, email and a password. We ask for nothing else.</p>
                     </li>
                     <li>
+                        <span class="icon-chip" data-icon="users"></span>
                         <h3>Add your children</h3>
                         <p>Enter a name and grade level for each child. ReadWell makes a username and PIN for them.</p>
                     </li>
                     <li>
+                        <span class="icon-chip" data-icon="key"></span>
                         <h3>Your child signs in</h3>
                         <p>They use their username and PIN to reach their own dashboard, separate from everyone else's.</p>
                     </li>
@@ -78,20 +87,24 @@
                     </div>
                     <ul class="feature-list">
                         <li>
-                            <strong>Readable text</strong>
-                            <span>Large type in the student area, strong contrast and generous spacing.</span>
+                            <span class="icon-chip icon-chip-sm" data-icon="text"></span>
+                            <span class="feature-text"><strong>Readable text</strong>
+                            <span>Large type in the student area, strong contrast and generous spacing.</span></span>
                         </li>
                         <li>
-                            <strong>Works with a keyboard</strong>
-                            <span>Every control can be reached and used without a mouse, with a clear focus outline.</span>
+                            <span class="icon-chip icon-chip-sm" data-icon="keyboard"></span>
+                            <span class="feature-text"><strong>Works with a keyboard</strong>
+                            <span>Every control can be reached and used without a mouse, with a clear focus outline.</span></span>
                         </li>
                         <li>
-                            <strong>Clear next steps</strong>
-                            <span>Each page has one main action, and messages say what went wrong and how to fix it.</span>
+                            <span class="icon-chip icon-chip-sm" data-icon="target"></span>
+                            <span class="feature-text"><strong>Clear next steps</strong>
+                            <span>Each page has one main action, and messages say what went wrong and how to fix it.</span></span>
                         </li>
                         <li>
-                            <strong>Quiet design</strong>
-                            <span>No flashing, no autoplay and no clutter.</span>
+                            <span class="icon-chip icon-chip-sm" data-icon="leaf"></span>
+                            <span class="feature-text"><strong>Quiet design</strong>
+                            <span>No flashing, no autoplay and no clutter.</span></span>
                         </li>
                     </ul>
                 </div>
@@ -109,6 +122,8 @@
 
     <script src="js/storage.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/icons.js"></script>
     <script src="js/layout.js"></script>
+    <script src="js/lottie-slots.js"></script>
 </body>
 </html>

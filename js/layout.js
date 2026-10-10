@@ -16,24 +16,24 @@
        with RW.url() so they work from index.html, parent/ and student/. */
     var NAV = {
         parent: [
-            ['dashboard', 'Dashboard', 'parent/parent-dashboard.html#dashboard'],
-            ['children', 'Children', 'parent/child-management.html'],
-            ['activity', 'Activity', 'parent/parent-dashboard.html#activity'],
-            ['progress', 'Progress', 'parent/parent-dashboard.html#progress'],
-            ['settings', 'Settings', 'parent/parent-settings.html']
+            ['dashboard', 'Dashboard', 'parent/parent-dashboard.html#dashboard', 'home'],
+            ['children', 'Children', 'parent/child-management.html', 'users'],
+            ['activity', 'Activity', 'parent/parent-dashboard.html#activity', 'pulse'],
+            ['progress', 'Progress', 'parent/parent-dashboard.html#progress', 'chart'],
+            ['settings', 'Settings', 'parent/parent-settings.html', 'settings']
         ],
         student: [
-            ['home', 'Home', 'student/student-dashboard.html#home'],
-            ['reading', 'Reading', 'student/reading.html'],
-            ['progress', 'Progress', 'student/progress.html'],
-            ['bookmarks', 'Bookmarks', 'student/bookmarks.html'],
-            ['history', 'History', 'student/activity-history.html'],
-            ['settings', 'Settings', 'student/profile.html']
+            ['home', 'Home', 'student/student-dashboard.html#home', 'home'],
+            ['reading', 'Reading', 'student/reading.html', 'book'],
+            ['progress', 'Progress', 'student/progress.html', 'chart'],
+            ['bookmarks', 'Bookmarks', 'student/bookmarks.html', 'bookmark'],
+            ['history', 'History', 'student/activity-history.html', 'history'],
+            ['settings', 'Settings', 'student/profile.html', 'user']
         ],
         // Signed-out visitors. Keys match each page's data-page value.
         visitor: [
-            ['parent-login', 'Log In', 'parent/parent-login.html'],
-            ['parent-register', 'Sign Up', 'parent/parent-register.html']
+            ['parent-login', 'Log In', 'parent/parent-login.html', 'login'],
+            ['parent-register', 'Sign Up', 'parent/parent-register.html', 'plus']
         ]
     };
 
@@ -124,7 +124,9 @@
     }
 
     function navItem(item, current) {
-        var a = el('a', { href: RW.url(item[2]), 'data-key': item[0], text: item[1] });
+        var a = el('a', { href: RW.url(item[2]), 'data-key': item[0] });
+        if (item[3] && RW.icons) { a.innerHTML = RW.icons.svg(item[3]); }
+        a.appendChild(doc.createTextNode(item[1]));
         if (item[0] === current) { a.setAttribute('aria-current', 'page'); }
         return el('li', {}, [a]);
     }
@@ -169,7 +171,9 @@
             NAV[area].forEach(function (item) { list.appendChild(navItem(item, current)); });
             needsLogout = true;
         } else if (session) {
-            var dash = el('a', { href: auth.dashboardUrl(session), 'data-key': 'dashboard', text: 'My dashboard' });
+            var dash = el('a', { href: auth.dashboardUrl(session), 'data-key': 'dashboard' });
+            if (RW.icons) { dash.innerHTML = RW.icons.svg('home'); }
+            dash.appendChild(doc.createTextNode('My dashboard'));
             list.appendChild(el('li', {}, [dash]));
             needsLogout = true;
         } else {
@@ -177,7 +181,9 @@
         }
 
         if (needsLogout) {
-            var logout = el('button', { type: 'button', class: 'nav-button', text: 'Logout' });
+            var logout = el('button', { type: 'button', class: 'nav-button' });
+            if (RW.icons) { logout.innerHTML = RW.icons.svg('logout'); }
+            logout.appendChild(doc.createTextNode('Logout'));
             logout.addEventListener('click', auth.logout);
             list.appendChild(el('li', {}, [logout]));
         }
