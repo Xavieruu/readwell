@@ -1,0 +1,25 @@
+/* ReadWell — parent area styles (Part 3 additions are appended below) */
+
+/* "Viewing: [child]" bar under the header */
+.chooser-bar { padding: var(--s-2) 0 0; }
+.chooser-bar .field-row {
+    margin: 0;
+    padding: var(--s-2) var(--s-3);
+    background: var(--surface);
+    border: 1px solid var(--card-line);
+    border-radius: var(--radius-card);
+}
+
+.section-title { margin: var(--s-2) 0 0; font-size: 1.5rem; }
+.plain-list { margin: 0; padding-left: 1.25rem; }
+.plain-list li { margin-bottom: var(--s-1); }
+
+/* One card per child in Student account management */
+.account-card h3 { margin: 0 0 var(--s-2); font-size: 1.375rem; }
+.account-card .details { margin-bottom: var(--s-3); }
+.account-forms { display: grid; gap: var(--s-3); margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px solid var(--rule); }
+.account-forms h4 { margin: 0 0 var(--s-1); font-size: 1.0625rem; }
+.inline-form { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s-2); }
+.inline-form .form-field { flex: 1 1 14rem; margin: 0; }
+.inline-form .btn { align-self: flex-start; margin-top: 30px; }
+.pin-note { margin: 0 0 var(--s-2); font-size: 0.9375rem; color: var(--hint); }

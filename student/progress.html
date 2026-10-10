@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="area-student">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Progress | ReadWell</title>
+    <meta name="description" content="See your scores, skills and improvement.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/reading.css">
+    <link rel="stylesheet" href="../css/student.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-root="../" data-area="student" data-page="progress" data-nav="progress">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" id="site-header"></header>
+
+    <main id="main-content" tabindex="-1">
+        <noscript><p class="noscript-note">ReadWell needs JavaScript turned on to work.</p></noscript>
+
+        <div class="page-header">
+            <div class="container">
+                <h1 id="page-title" tabindex="-1">My Progress</h1>
+                <p>See how you are doing and what to read next.</p>
+            </div>
+        </div>
+        <div class="container section-body stack">
+            <div id="empty" class="card empty-card" hidden>
+                <h2>No results yet</h2>
+                <p>After you finish a story, your progress will show up here.</p>
+                <p><a class="btn btn-primary" href="reading.html">Start reading</a></p>
+            </div>
+            <div id="content" class="stack" hidden>
+                <section class="card" aria-labelledby="h-stats">
+                    <h2 id="h-stats">Your reading so far</h2>
+                    <ul class="stat-grid">
+                        <li class="stat"><span class="stat-number" id="s-completed">0</span><span class="stat-label">Activities completed</span></li>
+                        <li class="stat"><span class="stat-number" id="s-average">0%</span><span class="stat-label">Average score</span></li>
+                        <li class="stat"><span class="stat-number" id="s-best">0%</span><span class="stat-label">Best score</span></li>
+                        <li class="stat"><span class="stat-number" id="s-attempts">0</span><span class="stat-label">Attempts</span></li>
+                    </ul>
+                </section>
+
+                <section class="card" aria-labelledby="h-good">
+                    <h2 id="h-good">What am I good at?</h2>
+                    <ul class="plain-list" id="good-list"></ul>
+                    <h2 id="h-practice" style="margin-top:24px">What should I practice more?</h2>
+                    <ul class="plain-list" id="practice-list"></ul>
+                    <div id="skill-rec" class="rec-box" hidden>
+                        <p id="skill-rec-text"></p>
+                        <a class="btn btn-primary btn-sm" id="skill-rec-link" href="reading.html">Open this activity</a>
+                    </div>
+                </section>
+
+                <section class="card" aria-labelledby="h-skills">
+                    <h2 id="h-skills">Accuracy by skill</h2>
+                    <p class="field-hint">Counts questions you got right on the first try, across all your finished attempts.</p>
+                    <ul class="skill-list" id="skill-list"></ul>
+                </section>
+
+                <section class="card" aria-labelledby="h-time">
+                    <h2 id="h-time">Scores over time</h2>
+                    <div id="chart"></div>
+                    <ol class="plain-list score-list" id="score-list"></ol>
+                </section>
+
+                <section class="card" aria-labelledby="h-improve">
+                    <h2 id="h-improve">Improvement</h2>
+                    <p id="improve-text"></p>
+                    <ul class="plain-list" id="improve-list"></ul>
+                </section>
+
+                <section class="card" aria-labelledby="h-recent">
+                    <h2 id="h-recent">Recent activities</h2>
+                    <ul class="story-list" id="recent-list"></ul>
+                    <p><a href="activity-history.html">See all activity history</a></p>
+                </section>
+
+                <section class="card" aria-labelledby="h-ach">
+                    <h2 id="h-ach">Achievements</h2>
+                    <ul class="plain-list ach-list" id="ach-list"></ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../activities/passages-data.js"></script>
+    <script src="../activities/questions-data.js"></script>
+    <script src="../activities/activities-data.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/questions.js"></script>
+    <script src="../js/progress.js"></script>
+    <script src="../js/recommendations.js"></script>
+    <script src="../js/achievements.js"></script>
+    <script src="../js/student-progress.js"></script>
+</body>
+</html>

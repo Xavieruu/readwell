@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add a child | ReadWell</title>
+    <meta name="description" content="Create a reading profile for your child and get their student username and PIN.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/parent.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-root="../" data-area="parent" data-page="add-child" data-nav="children">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header" id="site-header"></header>
+
+    <main id="main-content" tabindex="-1">
+        <noscript><p class="noscript-note">ReadWell needs JavaScript turned on to work.</p></noscript>
+
+        <!-- Form view -->
+        <section id="form-view" aria-labelledby="add-child-title">
+            <div class="page-header">
+                <div class="container">
+                    <h1 id="add-child-title">Add a Child</h1>
+                    <p>Only a name and grade level are needed. We will create a username and PIN for your child.</p>
+                </div>
+            </div>
+
+            <div class="container section-body">
+                <div class="card card-narrow">
+                    <div class="steps-bar" id="steps-bar" hidden>
+                        <p class="steps-label"><strong>Step 2 of 2:</strong> Add your child</p>
+                        <div class="progress" role="progressbar" aria-label="Setup progress" aria-valuemin="0" aria-valuemax="2" aria-valuenow="2" aria-valuetext="Step 2 of 2">
+                            <div class="progress-fill is-step-2"></div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info" id="recovery-note" hidden>
+                        <strong class="alert-label">Save your recovery code:</strong>
+                        <strong class="mono" id="recovery-code"></strong><br>
+                        You need it to reset your password if you forget it. You can find it again under Settings.
+                    </div>
+
+                    <form id="child-form" novalidate>
+                        <div class="alert alert-error" id="form-alert" role="alert" hidden>
+                            <strong class="alert-label">Problem:</strong> <span id="form-alert-text"></span>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="child-name">Child's name or preferred name</label>
+                            <input type="text" id="child-name" name="name" autocomplete="off" maxlength="40" aria-describedby="child-name-error" required>
+                            <p class="field-error" id="child-name-error" hidden></p>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="child-grade">Grade level</label>
+                            <select id="child-grade" name="grade" aria-describedby="child-grade-error" required>
+                                <option value="">Choose a grade</option>
+                                <option>Kindergarten</option>
+                                <option>Grade 1</option>
+                                <option>Grade 2</option>
+                                <option>Grade 3</option>
+                                <option>Grade 4</option>
+                                <option>Grade 5</option>
+                                <option>Grade 6</option>
+                                <option>Grade 7</option>
+                                <option>Grade 8</option>
+                                <option>Grade 9</option>
+                                <option>Grade 10</option>
+                                <option>Grade 11</option>
+                                <option>Grade 12</option>
+                            </select>
+                            <p class="field-error" id="child-grade-error" hidden></p>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="child-school">School <span class="optional">(optional)</span></label>
+                            <input type="text" id="child-school" name="school" autocomplete="off" maxlength="80">
+                        </div>
+
+                        <div class="form-field">
+                            <label for="child-reading">Reading level <span class="optional">(optional)</span></label>
+                            <select id="child-reading" name="reading" aria-describedby="child-reading-hint">
+                                <option value="">Not sure yet</option>
+                                <option>Beginning</option>
+                                <option>Developing</option>
+                                <option>On grade level</option>
+                                <option>Advanced</option>
+                            </select>
+                            <p class="field-hint" id="child-reading-hint">A rough guess is fine. You can leave this blank.</p>
+                        </div>
+
+                        <div class="button-row">
+                            <button type="submit" class="btn btn-primary">Create child profile</button>
+                            <a class="btn btn-secondary" id="skip-link" href="child-management.html">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success view -->
+        <section id="success-view" aria-labelledby="success-title" hidden>
+            <div class="page-header">
+                <div class="container">
+                    <h1 id="success-title" tabindex="-1">Profile created</h1>
+                    <p>Give these login details to your child.</p>
+                </div>
+            </div>
+
+            <div class="container section-body">
+                <div class="card card-narrow">
+                    <div class="alert alert-success" role="status">
+                        <strong class="alert-label">Done:</strong>
+                        <span id="success-text"></span>
+                    </div>
+
+                    <p>They use them at <strong>Student Login</strong>.</p>
+
+                    <dl class="credentials">
+                        <div>
+                            <dt>Student username</dt>
+                            <dd id="new-username"></dd>
+                        </div>
+                        <div>
+                            <dt>Student PIN</dt>
+                            <dd id="new-pin"></dd>
+                        </div>
+                    </dl>
+
+                    <p class="field-hint">You can find these again under Children on your dashboard.</p>
+
+                    <div class="button-row">
+                        <a class="btn btn-primary" href="parent-dashboard.html#dashboard">Go to dashboard</a>
+                        <a class="btn btn-secondary" href="add-child.html">Add another child</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <script src="../js/storage.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/layout.js"></script>
+    <script src="../js/add-child.js"></script>
+</body>
+</html>
