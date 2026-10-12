@@ -13,7 +13,7 @@
 
    Set in Vercel > Project > Settings > Environment Variables:
      GEMINI_API_KEY   (required)
-     GEMINI_MODEL     (optional, default gemini-2.5-flash)
+     GEMINI_MODEL     (optional, tried first; then gemini-3.8-flash and backups)
    ========================================================= */
 
 var SKILLS = ['Main Idea', 'Supporting Details', 'Sequencing', 'Cause and Effect',
@@ -85,7 +85,7 @@ module.exports = async function handler(req, res) {
     if (!data) { return res.status(400).json({ error: 'Invalid request.' }); }
 
     /* Try the chosen model first, then a backup, in case one is retired or busy. */
-    var models = [process.env.GEMINI_MODEL, 'gemini-2.5-flash', 'gemini-flash-latest']
+    var models = [process.env.GEMINI_MODEL, 'gemini-3.8-flash', 'gemini-flash-latest', 'gemini-2.5-flash']
         .filter(function (m, i, all) { return m && all.indexOf(m) === i; });
 
     var payload = JSON.stringify({
@@ -93,8 +93,7 @@ module.exports = async function handler(req, res) {
         contents: [{ role: 'user', parts: [{ text: buildPrompt(data) }] }],
         generationConfig: {
             temperature: 0.6,
-            maxOutputTokens: 1024,
-            thinkingConfig: { thinkingBudget: 0 },
+            maxOutputTokens: 2048,
             responseMimeType: 'application/json',
             responseSchema: {
                 type: 'OBJECT',
@@ -108,11 +107,16 @@ module.exports = async function handler(req, res) {
         var reply = null;
         for (var m = 0; m < models.length; m++) {
             var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(models[m]) + ':generateContent';
-            reply = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-                body: payload
-            });
+            for (var attempt = 0; attempt < 2; attempt++) {
+                reply = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+                    body: payload
+                });
+                // Retry once, after a short pause, when Google is briefly overloaded.
+                if (reply.status !== 503 || attempt === 1) { break; }
+                await new Promise(function (done) { setTimeout(done, 800); });
+            }
             if (reply.ok) { break; }
             /* Shows up in Vercel > Logs. The key itself is never logged. */
             console.error('Gemini error', models[m], reply.status, (await reply.text()).slice(0, 300));
