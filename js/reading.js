@@ -232,6 +232,7 @@
             var q = currentQuestion();
             var a = engine.answerFor(attempt, q.questionId);
             retrying = false;
+            if (RW.aiFeedback) { RW.aiFeedback.hide(); }
             ttsQuestion.stop();
 
             byId('progress-text').textContent = 'Question ' + (index + 1) + ' of ' + total;
@@ -314,6 +315,7 @@
             retrying = false;
             setLocked(true);
             showFeedback(q, result.correct);
+            if (RW.aiFeedback) { RW.aiFeedback.ask(q, selectedAnswer(), engine.answerFor(attempt, q.questionId).tries); }
             submitButton.hidden = true;
             retryButton.hidden = result.correct;
             explainButton.hidden = false;
@@ -330,6 +332,7 @@
             var inputs = form.querySelectorAll('input[name="answer"]');
             for (var i = 0; i < inputs.length; i++) { inputs[i].checked = false; }
             byId('feedback').hidden = true;
+            if (RW.aiFeedback) { RW.aiFeedback.hide(); }
             setExplanationOpen(false);
             submitButton.hidden = false;
             retryButton.hidden = true;

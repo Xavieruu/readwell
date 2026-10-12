@@ -93,6 +93,11 @@
                                 <p class="feedback-title" id="feedback-title"></p>
                                 <p id="feedback-body"></p>
                             </div>
+                            <div class="feedback ai-feedback" id="ai-feedback" role="status" aria-live="polite" hidden>
+                                <p class="feedback-title">Coach note</p>
+                                <p id="ai-feedback-body"></p>
+                                <p class="ai-note">Written by a computer program (Google Gemini). It does not change your score.</p>
+                            </div>
                             <div class="explain" id="explanation" hidden>
                                 <p><strong>Correct answer:</strong> <span id="explain-answer"></span></p>
                                 <p><strong>Why:</strong> <span id="explain-why"></span></p>
@@ -165,6 +170,7 @@
     <script src="../js/questions.js"></script>
     <script src="../js/annotations.js"></script>
     <script src="../js/tts.js"></script>
+    <script src="../js/ai-feedback.js"></script>
     <script src="../js/reading.js"></script>
     <script src="../js/lottie-slots.js"></script>
 </body>

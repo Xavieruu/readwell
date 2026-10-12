@@ -169,3 +169,8 @@ mark.hl:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
     border-top: 1px solid var(--rule);
 }
 .timer-text { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-strong); }
+
+/* AI coach note under the normal feedback */
+.ai-feedback { color: var(--ink); background: var(--surface-item); border-color: var(--card-line); border-left: 6px solid var(--green-deep); }
+.ai-feedback .feedback-title { font-size: 1.125rem; }
+.ai-feedback .ai-note { margin: var(--s-2) 0 0; font-size: 0.875rem; color: var(--hint); }

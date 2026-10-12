@@ -132,3 +132,22 @@ and rate-limits requests. It does not work when a page is opened from a
 folder (file://); use the deployed site or `vercel dev`.
 Note: this breaks the "no AI" rule of earlier parts, but only as this
 opt-in extra. Delete api/ and js/ai-tips.js to remove it.
+
+
+=========================================================
+AI COACH NOTE ON EACH QUIZ ANSWER (same opt-in as study tips)
+=========================================================
+After a student submits an answer, a "Coach note" appears under the normal
+feedback. It is extra: the normal feedback always shows first, the score is
+never changed, and if Gemini is busy the note simply does not appear.
+  - Right answer: praise + why it is right.
+  - Wrong answer (tries 1-2): a gentle nudge about which part of the story to
+    re-read, WITHOUT telling the correct answer.
+  - Wrong answer (3rd try): the correct answer is explained.
+Files: api/feedback.js, api/_gemini.js (shared helper), js/ai-feedback.js,
+vercel.json (makes the story data files available to api/feedback.js).
+The browser sends only the question id, the chosen answer and the try number.
+The server reads the story and question from its own data files and checks
+the answer is one of the real choices, so no free text can reach Gemini.
+Models: gemini-3.8-flash first, then gemini-flash-latest, gemini-2.5-flash.
+Set GEMINI_MODEL in Vercel to force one. Check Vercel > Logs for "Gemini error".

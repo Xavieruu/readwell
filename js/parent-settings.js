@@ -150,8 +150,8 @@
             if (note) { note.textContent = ok ? (tipsBox.checked ? 'AI study tips are on for ' + child.name + '.' : 'AI study tips are off for ' + child.name + '.') : 'We could not save the change.'; }
         });
         card.appendChild(el('div', { class: 'tips-optin' }, [
-            el('label', { for: 'tips-' + cid }, [tipsBox, ' Allow AI study tips']),
-            el('p', { class: 'hint', text: 'Adds a "Get study tips" button to ' + child.name + "'s Progress page. Only skill names, percentages and the level are sent to Google Gemini. No name, username or school is ever sent. Off by default." })
+            el('label', { for: 'tips-' + cid }, [tipsBox, ' Allow AI study tips and answer feedback']),
+            el('p', { class: 'hint', text: 'Adds a "Get study tips" button to ' + child.name + "'s Progress page and a short coach note after each quiz answer. Only skill names, percentages, a question id and the chosen answer are sent to Google Gemini. No name, username or school is ever sent. Off by default." })
         ]));
 
         var status = el('p', { class: 'save-note', role: 'status', id: 'status-' + cid });

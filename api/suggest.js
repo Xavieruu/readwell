@@ -21,18 +21,7 @@ var SKILLS = ['Main Idea', 'Supporting Details', 'Sequencing', 'Cause and Effect
     'Vocabulary in Context', "Author's Purpose", 'Critical Evaluation', 'Tone', 'Mood'];
 var LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 
-/* Very small rate limit per visitor (resets when the server restarts). */
-var hits = {};
-var LIMIT = 10;            // requests
-var WINDOW_MS = 10 * 60e3; // per 10 minutes
-
-function tooMany(ip) {
-    var now = Date.now();
-    var list = (hits[ip] || []).filter(function (t) { return now - t < WINDOW_MS; });
-    list.push(now);
-    hits[ip] = list;
-    return list.length > LIMIT;
-}
+var gemini = require('./_gemini.js');
 
 function clean(body) {
     if (!body || typeof body !== 'object') { return null; }
@@ -74,70 +63,29 @@ module.exports = async function handler(req, res) {
         res.setHeader('Allow', 'POST');
         return res.status(405).json({ error: 'Use POST.' });
     }
-
-    var key = process.env.GEMINI_API_KEY;
-    if (!key) { return res.status(503).json({ error: 'Tips are not set up yet.' }); }
+    if (!process.env.GEMINI_API_KEY) { return res.status(503).json({ error: 'Tips are not set up yet.' }); }
 
     var ip = String(req.headers['x-forwarded-for'] || 'unknown').split(',')[0].trim();
-    if (tooMany(ip)) { return res.status(429).json({ error: 'Too many requests. Please wait a few minutes.' }); }
+    if (gemini.tooMany('tips-' + ip, 10, 10 * 60e3)) {
+        return res.status(429).json({ error: 'Too many requests. Please wait a few minutes.' });
+    }
 
     var data = clean(req.body);
     if (!data) { return res.status(400).json({ error: 'Invalid request.' }); }
 
-    /* Try the chosen model first, then a backup, in case one is retired or busy. */
-    var models = [process.env.GEMINI_MODEL, 'gemini-3.8-flash', 'gemini-flash-latest', 'gemini-2.5-flash']
-        .filter(function (m, i, all) { return m && all.indexOf(m) === i; });
-
-    var payload = JSON.stringify({
-        systemInstruction: { parts: [{ text: SYSTEM }] },
-        contents: [{ role: 'user', parts: [{ text: buildPrompt(data) }] }],
-        generationConfig: {
-            temperature: 0.6,
-            maxOutputTokens: 2048,
-            responseMimeType: 'application/json',
-            responseSchema: {
-                type: 'OBJECT',
-                properties: { tips: { type: 'ARRAY', items: { type: 'STRING' } } },
-                required: ['tips']
-            }
-        }
-    });
-
     try {
-        var reply = null;
-        for (var m = 0; m < models.length; m++) {
-            var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(models[m]) + ':generateContent';
-            for (var attempt = 0; attempt < 2; attempt++) {
-                reply = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-                    body: payload
-                });
-                // Retry once, after a short pause, when Google is briefly overloaded.
-                if (reply.status !== 503 || attempt === 1) { break; }
-                await new Promise(function (done) { setTimeout(done, 800); });
-            }
-            if (reply.ok) { break; }
-            /* Shows up in Vercel > Logs. The key itself is never logged. */
-            console.error('Gemini error', models[m], reply.status, (await reply.text()).slice(0, 300));
-        }
-        if (!reply || !reply.ok) { return res.status(502).json({ error: 'The tips service is busy. Try again later.' }); }
-
-        var json = await reply.json();
-        var text = json && json.candidates && json.candidates[0] &&
-            json.candidates[0].content && json.candidates[0].content.parts &&
-            json.candidates[0].content.parts[0] && json.candidates[0].content.parts[0].text;
-        if (!text) { console.error('Gemini gave no text:', JSON.stringify(json).slice(0, 400)); }
-        var tips = JSON.parse(text).tips;
-        if (!Array.isArray(tips)) { throw new Error('bad shape'); }
-
-        tips = tips.filter(function (t) { return typeof t === 'string' && t.trim(); })
-            .slice(0, 3)
-            .map(function (t) { return t.replace(/[*_#`]/g, '').trim().slice(0, 240); });
+        var out = await gemini.generate({
+            system: SYSTEM,
+            prompt: buildPrompt(data),
+            schema: { type: 'OBJECT', properties: { tips: { type: 'ARRAY', items: { type: 'STRING' } } }, required: ['tips'] }
+        });
+        if (!out || !Array.isArray(out.tips)) { throw new Error('bad shape'); }
+        var tips = out.tips.filter(function (t) { return typeof t === 'string' && t.trim(); })
+            .slice(0, 3).map(function (t) { return gemini.tidy(t, 240); });
         if (!tips.length) { throw new Error('no tips'); }
         return res.status(200).json({ tips: tips });
     } catch (e) {
         console.error('suggest failed:', e && e.message ? e.message : e);
-        return res.status(502).json({ error: 'Could not make tips right now. Try again later.' });
+        return res.status(502).json({ error: 'The tips service is busy. Try again later.' });
     }
 };
