@@ -94,7 +94,7 @@ module.exports = async function handler(req, res) {
         var out = await gemini.generate({
             system: SYSTEM,
             prompt: buildPrompt(story, q, body.answer, correct, tries),
-            maxTokens: 1024,
+            maxTokens: 4096,
             schema: { type: 'OBJECT', properties: { feedback: { type: 'STRING' } }, required: ['feedback'] }
         });
         var text = out && typeof out.feedback === 'string' ? gemini.tidy(out.feedback, 400) : '';

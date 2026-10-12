@@ -32,36 +32,44 @@
         if (!box || !enabled()) { return; }
 
         var body = byId('ai-feedback-body');
+        var again = byId('ai-feedback-retry');
         var mine = ++latest;
         var cacheKey = 'rw_ai_fb_' + question.questionId + '_' + tries + '_' + answer;
 
-        function put(text) {
+        function put(text, showRetry) {
             if (mine !== latest) { return; }   // the student already moved on
             body.textContent = text;
+            again.hidden = !showRetry;
             box.hidden = false;
         }
 
         try {
             var saved = global.sessionStorage.getItem(cacheKey);
-            if (saved) { put(saved); return; }
+            if (saved) { put(saved, false); return; }
         } catch (e) { /* no cache, fine */ }
 
-        put('Your coach is thinking…');
+        function attempt(n) {
+            put('Your coach is thinking…', false);
+            global.fetch(RW.url('api/feedback'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ questionId: question.questionId, answer: answer, tries: tries })
+            }).then(function (r) {
+                if (!r.ok) { throw new Error('not ok'); }
+                return r.json();
+            }).then(function (res) {
+                if (!res || typeof res.feedback !== 'string') { throw new Error('bad reply'); }
+                put(res.feedback, false);
+                try { global.sessionStorage.setItem(cacheKey, res.feedback); } catch (e) { /* ignore */ }
+            }).catch(function () {
+                // Try once more on its own, then show a kind message with a button.
+                if (n < 2) { global.setTimeout(function () { if (mine === latest) { attempt(n + 1); } }, 1500); return; }
+                put('The coach could not answer just now. Use the hints and the explanation, or try again.', true);
+            });
+        }
 
-        global.fetch(RW.url('api/feedback'), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ questionId: question.questionId, answer: answer, tries: tries })
-        }).then(function (r) {
-            if (!r.ok) { throw new Error('not ok'); }
-            return r.json();
-        }).then(function (res) {
-            if (!res || typeof res.feedback !== 'string') { throw new Error('bad reply'); }
-            put(res.feedback);
-            try { global.sessionStorage.setItem(cacheKey, res.feedback); } catch (e) { /* ignore */ }
-        }).catch(function () {
-            if (mine === latest) { box.hidden = true; }   // fail quietly
-        });
+        again.onclick = function () { attempt(1); };
+        attempt(1);
     }
 
     RW.aiFeedback = { ask: ask, hide: hide, enabled: enabled };
