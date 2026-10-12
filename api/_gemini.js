@@ -29,16 +29,24 @@ function modelList() {
 
 function pause(ms) { return new Promise(function (done) { setTimeout(done, ms); }); }
 
-/* options: { system, prompt, schema, maxTokens, temperature }
-   Returns the parsed JSON object. Throws an Error when nothing worked. */
+/* options: { system, prompt, maxTokens, temperature, text, schema }
+   text:true  -> returns the reply as a plain string (safest).
+   otherwise  -> asks for JSON using `schema` and returns the parsed object.
+   Throws an Error when nothing worked. */
 async function generate(options) {
     var key = process.env.GEMINI_API_KEY;
     if (!key) { var missing = new Error('no key'); missing.code = 'NO_KEY'; throw missing; }
 
+    /* Plain-text mode: no JSON to break if the reply is cut short. */
+    var textMode = options.text === true;
+
     var payload = JSON.stringify({
         systemInstruction: { parts: [{ text: options.system }] },
         contents: [{ role: 'user', parts: [{ text: options.prompt }] }],
-        generationConfig: {
+        generationConfig: textMode ? {
+            temperature: options.temperature === undefined ? 0.6 : options.temperature,
+            maxOutputTokens: options.maxTokens || 2048
+        } : {
             temperature: options.temperature === undefined ? 0.6 : options.temperature,
             maxOutputTokens: options.maxTokens || 2048,
             responseMimeType: 'application/json',
@@ -72,7 +80,18 @@ async function generate(options) {
         console.error('Gemini gave no text:', JSON.stringify(json).slice(0, 400));
         throw new Error('empty reply');
     }
+    var cutShort = json.candidates[0].finishReason === 'MAX_TOKENS';
+    if (cutShort) { console.error('Gemini reply was cut short (MAX_TOKENS)'); }
+    if (textMode) { return trimToSentence(part.text, cutShort); }
     return JSON.parse(part.text);
+}
+
+/* If a reply was cut off in the middle of a sentence, drop the broken end. */
+function trimToSentence(text, cutShort) {
+    var t = String(text).trim();
+    if (!cutShort || /[.!?]$/.test(t)) { return t; }
+    var last = Math.max(t.lastIndexOf('. '), t.lastIndexOf('! '), t.lastIndexOf('? '));
+    return last > 20 ? t.slice(0, last + 1) : t;
 }
 
 /* Removes markdown symbols and trims a text to a safe length. */

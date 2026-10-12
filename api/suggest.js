@@ -43,7 +43,7 @@ function clean(body) {
 var SYSTEM =
     'You write short study tips for a child who is practicing reading comprehension. ' +
     'Use simple, warm, encouraging words a student aged 8 to 14 can read. ' +
-    'Give exactly 3 tips. Each tip is one or two sentences and under 220 characters. ' +
+    'Give exactly 3 tips, each on its own line, with no numbers or bullets. Each tip is one or two sentences and under 220 characters. ' +
     'Be specific about the skills listed and say what the child can DO, for example re-read the first paragraph or find the clue word. ' +
     'Never use the words weak, bad, poor, slow, struggle or fail. Never mention disabilities, diagnoses or ability. ' +
     'Do not ask for or mention names or personal details. Do not use emojis or markdown.';
@@ -77,11 +77,15 @@ module.exports = async function handler(req, res) {
         var out = await gemini.generate({
             system: SYSTEM,
             prompt: buildPrompt(data),
-            schema: { type: 'OBJECT', properties: { tips: { type: 'ARRAY', items: { type: 'STRING' } } }, required: ['tips'] }
+            maxTokens: 4096,
+            text: true
         });
-        if (!out || !Array.isArray(out.tips)) { throw new Error('bad shape'); }
-        var tips = out.tips.filter(function (t) { return typeof t === 'string' && t.trim(); })
-            .slice(0, 3).map(function (t) { return gemini.tidy(t, 240); });
+        if (typeof out !== 'string') { throw new Error('bad shape'); }
+        // One tip per line. Remove any "1." or "-" the model puts in front.
+        var tips = out.split('\n')
+            .map(function (t) { return gemini.tidy(t.replace(/^\s*(?:[-•]|\d+[.)])\s*/, ''), 240); })
+            .filter(function (t) { return t.length > 0; })
+            .slice(0, 3);
         if (!tips.length) { throw new Error('no tips'); }
         return res.status(200).json({ tips: tips });
     } catch (e) {
