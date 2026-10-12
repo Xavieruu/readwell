@@ -84,34 +84,46 @@ module.exports = async function handler(req, res) {
     var data = clean(req.body);
     if (!data) { return res.status(400).json({ error: 'Invalid request.' }); }
 
-    var model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-    var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent';
+    /* Try the chosen model first, then a backup, in case one is retired or busy. */
+    var models = [process.env.GEMINI_MODEL, 'gemini-2.5-flash', 'gemini-flash-latest']
+        .filter(function (m, i, all) { return m && all.indexOf(m) === i; });
+
+    var payload = JSON.stringify({
+        systemInstruction: { parts: [{ text: SYSTEM }] },
+        contents: [{ role: 'user', parts: [{ text: buildPrompt(data) }] }],
+        generationConfig: {
+            temperature: 0.6,
+            maxOutputTokens: 1024,
+            thinkingConfig: { thinkingBudget: 0 },
+            responseMimeType: 'application/json',
+            responseSchema: {
+                type: 'OBJECT',
+                properties: { tips: { type: 'ARRAY', items: { type: 'STRING' } } },
+                required: ['tips']
+            }
+        }
+    });
 
     try {
-        var reply = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-            body: JSON.stringify({
-                systemInstruction: { parts: [{ text: SYSTEM }] },
-                contents: [{ role: 'user', parts: [{ text: buildPrompt(data) }] }],
-                generationConfig: {
-                    temperature: 0.6,
-                    maxOutputTokens: 600,
-                    responseMimeType: 'application/json',
-                    responseSchema: {
-                        type: 'OBJECT',
-                        properties: { tips: { type: 'ARRAY', items: { type: 'STRING' } } },
-                        required: ['tips']
-                    }
-                }
-            })
-        });
-        if (!reply.ok) { return res.status(502).json({ error: 'The tips service is busy. Try again later.' }); }
+        var reply = null;
+        for (var m = 0; m < models.length; m++) {
+            var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(models[m]) + ':generateContent';
+            reply = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+                body: payload
+            });
+            if (reply.ok) { break; }
+            /* Shows up in Vercel > Logs. The key itself is never logged. */
+            console.error('Gemini error', models[m], reply.status, (await reply.text()).slice(0, 300));
+        }
+        if (!reply || !reply.ok) { return res.status(502).json({ error: 'The tips service is busy. Try again later.' }); }
 
         var json = await reply.json();
         var text = json && json.candidates && json.candidates[0] &&
             json.candidates[0].content && json.candidates[0].content.parts &&
             json.candidates[0].content.parts[0] && json.candidates[0].content.parts[0].text;
+        if (!text) { console.error('Gemini gave no text:', JSON.stringify(json).slice(0, 400)); }
         var tips = JSON.parse(text).tips;
         if (!Array.isArray(tips)) { throw new Error('bad shape'); }
 
@@ -121,6 +133,7 @@ module.exports = async function handler(req, res) {
         if (!tips.length) { throw new Error('no tips'); }
         return res.status(200).json({ tips: tips });
     } catch (e) {
+        console.error('suggest failed:', e && e.message ? e.message : e);
         return res.status(502).json({ error: 'Could not make tips right now. Try again later.' });
     }
 };
