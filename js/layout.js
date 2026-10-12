@@ -278,6 +278,36 @@
         show(false);
     }
 
+
+    /* ---------- scroll progress bar ----------
+       A thin bar fixed to the top of the window that fills as the page
+       is scrolled. It is decoration only (aria-hidden) and has no
+       animation of its own, so it is safe with Reduced motion. */
+    function initScrollBar() {
+        if (byId('scroll-bar')) { return; }
+        var bar = el('div', { id: 'scroll-bar', class: 'scroll-bar', 'aria-hidden': 'true' }, [
+            el('div', { class: 'scroll-bar-fill' })
+        ]);
+        doc.body.appendChild(bar);
+        var fill = bar.firstChild;
+        var waiting = false;
+
+        function update() {
+            waiting = false;
+            var room = doc.documentElement.scrollHeight - global.innerHeight;
+            var pct = room > 0 ? Math.min(100, Math.max(0, (global.pageYOffset / room) * 100)) : 0;
+            fill.style.width = pct + '%';
+            bar.hidden = room <= 0;
+        }
+        function onScroll() {
+            if (!waiting) { waiting = true; global.requestAnimationFrame(update); }
+        }
+        global.addEventListener('scroll', onScroll, { passive: true });
+        global.addEventListener('resize', onScroll);
+        global.addEventListener('hashchange', onScroll);
+        update();
+    }
+
     RW.ui = {
         byId: byId,
         el: el,
@@ -293,4 +323,5 @@
     renderHeader();
     renderFooter();
     warnIfStorageOff();
+    initScrollBar();
 })(window);

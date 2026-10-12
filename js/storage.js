@@ -35,7 +35,8 @@
         attempts: 'rw_attempts',
         settings: 'rw_settings',
         annotations: 'rw_annotations',
-        bookmarks: 'rw_bookmarks'
+        bookmarks: 'rw_bookmarks',
+        aiTips: 'rw_ai_tips'
     };
 
     /* ---------- low-level helpers ---------- */
@@ -506,7 +507,24 @@
     }
     RW.url = url;
 
+
+    /* ---------- AI study tips opt-in (set by the parent, per child) ---------- */
+
+    function getAiTips(studentId) {
+        return readObject(KEYS.aiTips)[studentId] === true;
+    }
+
+    function setAiTips(studentId, parentId, on) {
+        var student = getStudentById(studentId);
+        if (!student || student.parentId !== parentId) { return false; }
+        var all = readObject(KEYS.aiTips);
+        all[studentId] = !!on;
+        return write(KEYS.aiTips, all);
+    }
+
     RW.store = {
+        getAiTips: getAiTips,
+        setAiTips: setAiTips,
         KEYS: KEYS,
         available: available,
         init: init,

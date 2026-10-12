@@ -54,6 +54,14 @@
                     </div>
                 </section>
 
+                <section class="card" id="ai-tips" aria-labelledby="h-tips" hidden>
+                    <h2 id="h-tips">Study tips</h2>
+                    <p>Tips written by a computer program (Google Gemini) from your skill scores. They are ideas to try, not a test result.</p>
+                    <button type="button" class="btn btn-secondary" id="ai-tips-button">Get study tips</button>
+                    <p class="save-note" id="ai-tips-status" role="status"></p>
+                    <ul class="plain-list" id="ai-tips-list" hidden></ul>
+                </section>
+
                 <section class="card" aria-labelledby="h-skills">
                     <h2 id="h-skills">Accuracy by skill</h2>
                     <p class="field-hint">Counts questions you got right on the first try, across all your finished attempts.</p>
@@ -101,6 +109,7 @@
     <script src="../js/recommendations.js"></script>
     <script src="../js/achievements.js"></script>
     <script src="../js/student-progress.js"></script>
+    <script src="../js/ai-tips.js"></script>
     <script src="../js/lottie-slots.js"></script>
 </body>
 </html>

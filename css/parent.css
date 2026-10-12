@@ -23,3 +23,8 @@
 .inline-form .form-field { flex: 1 1 14rem; margin: 0; }
 .inline-form .btn { align-self: flex-start; margin-top: 30px; }
 .pin-note { margin: 0 0 var(--s-2); font-size: 0.9375rem; color: var(--hint); }
+
+/* AI tips opt-in on the parent settings child card */
+.tips-optin { margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px solid var(--rule); }
+.tips-optin label { display: inline-flex; align-items: center; gap: var(--s-2); font-weight: 600; color: var(--ink-strong); }
+.tips-optin .hint { margin: var(--s-1) 0 0; color: var(--hint); }

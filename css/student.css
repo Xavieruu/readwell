@@ -146,3 +146,7 @@ html[data-mode="contrast"] .btn-primary:hover { color: #000000; }
 
 /* ---------- Dashboard tiles: icon on top ---------- */
 .tile-list .icon-chip { margin-bottom: var(--s-2); }
+
+/* AI study tips card */
+#ai-tips .save-note { margin-top: var(--s-2); font-weight: 400; }
+#ai-tips .plain-list { margin-top: var(--s-3); }

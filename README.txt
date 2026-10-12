@@ -106,3 +106,29 @@ Adding LottieFiles animations
   3. Deploy. If the file is missing or the page is opened as file://, the
      built-in animated SVG is shown instead. Lottie only plays over http(s)
      (for example on Vercel). Animations pause when Reduced motion is on.
+
+
+=========================================================
+OPTIONAL: AI STUDY TIPS (Google Gemini)
+=========================================================
+Off by default. A parent turns it on per child in Parent > Settings
+("Allow AI study tips"). The child then sees a "Get study tips" button
+on the Progress page. The rule-based advice is always shown as well.
+
+Files: api/suggest.js (server), js/ai-tips.js (button), plus the opt-in
+checkbox in js/parent-settings.js and storage key rw_ai_tips.
+
+Setup on Vercel (the API key is NEVER put in the website code):
+  1. Get a key at https://aistudio.google.com/apikey
+  2. Vercel > your project > Settings > Environment Variables
+     Name: GEMINI_API_KEY   Value: (your key)   (all environments)
+  3. Optional: GEMINI_MODEL (default gemini-2.5-flash)
+  4. Redeploy (Deployments > ... > Redeploy). The api/ folder must be
+     at the project root, next to index.html.
+
+Privacy: only skill names, percentages, an average and a level are sent.
+No name, username, school or email. The server re-checks every field
+and rate-limits requests. It does not work when a page is opened from a
+folder (file://); use the deployed site or `vercel dev`.
+Note: this breaks the "no AI" rule of earlier parts, but only as this
+opt-in extra. Delete api/ and js/ai-tips.js to remove it.

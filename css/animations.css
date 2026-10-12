@@ -103,3 +103,8 @@
 
 .empty-card .lottie-slot { max-width: 180px; }
 .lottie-slot [hidden] { display: none; }
+
+/* ---- scroll progress bar (fixed, top of window) ---- */
+.scroll-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 100; background: rgba(255,255,255,.18); pointer-events: none; }
+.scroll-bar[hidden] { display: none; }
+.scroll-bar-fill { height: 100%; width: 0; background: #FFFFFF; box-shadow: 0 0 0 1px rgba(14,26,20,.25); }

@@ -140,6 +140,20 @@
             : el('span', { text: 'Not shown. A PIN you chose is in use.' })]));
         card.appendChild(dl);
 
+        /* AI study tips opt-in */
+        var tipsOn = RW.store.getAiTips(cid);
+        var tipsBox = el('input', { type: 'checkbox', id: 'tips-' + cid });
+        tipsBox.checked = tipsOn;
+        tipsBox.addEventListener('change', function () {
+            var ok = RW.store.setAiTips(cid, pid, tipsBox.checked);
+            var note = byId('status-' + cid);
+            if (note) { note.textContent = ok ? (tipsBox.checked ? 'AI study tips are on for ' + child.name + '.' : 'AI study tips are off for ' + child.name + '.') : 'We could not save the change.'; }
+        });
+        card.appendChild(el('div', { class: 'tips-optin' }, [
+            el('label', { for: 'tips-' + cid }, [tipsBox, ' Allow AI study tips']),
+            el('p', { class: 'hint', text: 'Adds a "Get study tips" button to ' + child.name + "'s Progress page. Only skill names, percentages and the level are sent to Google Gemini. No name, username or school is ever sent. Off by default." })
+        ]));
+
         var status = el('p', { class: 'save-note', role: 'status', id: 'status-' + cid });
 
         /* Change username */
