@@ -151,3 +151,30 @@ The server reads the story and question from its own data files and checks
 the answer is one of the real choices, so no free text can reach Gemini.
 Models: gemini-3.8-flash first, then gemini-flash-latest, gemini-2.5-flash.
 Set GEMINI_MODEL in Vercel to force one. Check Vercel > Logs for "Gemini error".
+
+
+=========================================================
+FIREBASE SIGN-IN FOR PARENTS (stage 1)
+=========================================================
+Parents now sign up and log in with Firebase Authentication:
+  - email + password, and "Continue with Google"
+  - "Forgot your password?" sends a reset link by email (no recovery code)
+  - Settings: change password (asks for the current one); change email sends a
+    confirmation link to the NEW address. Google parents have neither form.
+Files: js/firebase-config.js (public project settings + RW.fbReady),
+js/firebase-init.js (loads Firebase 11.10.0 from gstatic.com), and the
+Firebase functions at the bottom of js/auth.js. These load on every parent page.
+
+STILL LOCAL (stage 2, next): children, PINs, attempts and progress are saved in
+this browser's localStorage. A parent who logs in on another device will not
+see them yet. The parent's id is the Firebase uid, copied locally on sign-in
+(no password is stored locally). The old simulated parent accounts cannot log
+in any more; sign up again.
+Student login (username + PIN) is unchanged for now.
+
+Firebase console checklist
+  Authentication > Sign-in method: Google = Enabled, Email/Password = Enabled
+  Authentication > Settings > Authorized domains: add readwell-gilt.vercel.app
+  (and any custom domain). Without it Google sign-in says "unauthorized domain".
+The apiKey in firebase-config.js is not secret. Never put the service-account
+JSON key in the project or in GitHub.

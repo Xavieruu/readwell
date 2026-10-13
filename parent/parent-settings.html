@@ -31,12 +31,12 @@
                 <dl class="details">
                     <dt>Name</dt><dd id="account-name"></dd>
                     <dt>Email</dt><dd id="account-email"></dd>
-                    <dt>Recovery code</dt><dd id="account-recovery"></dd>
+                    <dt>Sign-in</dt><dd id="account-signin">Checking…</dd>
                 </dl>
-                <p class="field-hint">You need your recovery code to reset your password. Keep it somewhere safe.</p>
+                <p class="field-hint" id="account-hint">If you forget your password, use "Forgot your password?" on the login page and we will email you a reset link.</p>
             </section>
 
-            <section class="card" aria-labelledby="h-email">
+            <section class="card" aria-labelledby="h-email" id="email-section">
                 <h2 id="h-email">Change email</h2>
                 <form id="email-form" novalidate>
                     <div class="alert alert-error" id="email-alert" role="alert" hidden><strong class="alert-label">Could not save.</strong> <span id="email-alert-text"></span></div>
@@ -57,7 +57,7 @@
                 </form>
             </section>
 
-            <section class="card" aria-labelledby="h-password">
+            <section class="card" aria-labelledby="h-password" id="password-section">
                 <h2 id="h-password">Change password</h2>
                 <form id="password-form" novalidate>
                     <div class="alert alert-error" id="password-alert" role="alert" hidden><strong class="alert-label">Could not save.</strong> <span id="password-alert-text"></span></div>
@@ -99,11 +99,13 @@
 
     <footer class="site-footer" id="site-footer"></footer>
 
+    <script src="../js/firebase-config.js"></script>
     <script src="../js/storage.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/icons.js"></script>
     <script src="../js/layout.js"></script>
     <script src="../js/parent-settings.js"></script>
     <script src="../js/lottie-slots.js"></script>
+    <script type="module" src="../js/firebase-init.js"></script>
 </body>
 </html>

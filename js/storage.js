@@ -272,6 +272,30 @@
         return write(KEYS.parents, parents) ? parent : null;
     }
 
+
+    /* A parent who signs in with Firebase gets a small local copy so the rest of
+       the site (children, progress) can find them. Their id is the Firebase uid.
+       No password is ever stored here. */
+    function upsertFirebaseParent(uid, name, email) {
+        var parents = readList(KEYS.parents);
+        var found = null;
+        parents.forEach(function (p) { if (p.parentId === uid) { found = p; } });
+        if (found) {
+            if (name) { found.name = name; }
+            if (email) { found.email = String(email).toLowerCase(); }
+        } else {
+            found = {
+                parentId: uid,
+                name: name || String(email || 'Parent').split('@')[0],
+                email: String(email || '').toLowerCase(),
+                firebase: true,
+                createdAt: new Date().toISOString()
+            };
+            parents.push(found);
+        }
+        return write(KEYS.parents, parents) ? found : null;
+    }
+
     function getStudentById(id) {
         var list = readList(KEYS.students);
         for (var i = 0; i < list.length; i++) {
@@ -523,6 +547,7 @@
     }
 
     RW.store = {
+        upsertFirebaseParent: upsertFirebaseParent,
         getAiTips: getAiTips,
         setAiTips: setAiTips,
         KEYS: KEYS,

@@ -20,12 +20,6 @@
         ui.byId('steps-bar').hidden = false;
         ui.byId('skip-link').textContent = 'Skip for now';
         window.document.title = 'Add your first child | ReadWell';
-
-        var code = RW.store.ensureRecoveryCode(parent.parentId);
-        if (code) {
-            ui.byId('recovery-code').textContent = code;
-            ui.byId('recovery-note').hidden = false;
-        }
     }
 
     form.addEventListener('submit', function (event) {

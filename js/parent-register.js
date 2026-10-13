@@ -56,18 +56,43 @@
             return;
         }
 
-        var result = RW.auth.registerParent({ name: name, email: email, password: password });
-
-        if (!result.ok) {
-            if (result.field === 'email') {
-                ui.setFieldError('parent-email', result.error);
-                ui.focusFirstInvalid(form);
-            } else {
-                ui.showAlert(result.error);
+        setBusy(true);
+        RW.auth.registerParentFirebase({ name: name, email: email, password: password }).then(function (result) {
+            if (!result.ok) {
+                setBusy(false);
+                if (result.field === 'email') {
+                    ui.setFieldError('parent-email', result.error);
+                    ui.focusFirstInvalid(form);
+                } else if (result.field === 'password') {
+                    ui.setFieldError('parent-password', result.error);
+                    ui.focusFirstInvalid(form);
+                } else {
+                    ui.showAlert(result.error);
+                }
+                return;
             }
-            return;
-        }
+            window.location.href = 'add-child.html?first=1';
+        });
+    });
 
-        window.location.href = 'add-child.html?first=1';
+    var googleButton = ui.byId('google-button');
+    var submitButton = form.querySelector('button[type="submit"]');
+
+    function setBusy(busy) {
+        googleButton.disabled = busy;
+        submitButton.disabled = busy;
+    }
+
+    googleButton.addEventListener('click', function () {
+        ui.clearErrors(form);
+        setBusy(true);
+        RW.auth.loginParentGoogle().then(function (result) {
+            if (!result.ok) {
+                setBusy(false);
+                if (!result.cancelled) { ui.showAlert(result.error); }
+                return;
+            }
+            window.location.href = result.isNew ? 'add-child.html?first=1' : 'parent-dashboard.html#dashboard';
+        });
     });
 })();

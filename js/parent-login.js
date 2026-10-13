@@ -32,12 +32,36 @@
             return;
         }
 
-        var result = RW.auth.loginParent(email, password);
-        if (!result.ok) {
-            ui.showAlert(result.error);
-            return;
-        }
+        setBusy(true);
+        RW.auth.loginParentFirebase(email, password).then(function (result) {
+            if (!result.ok) {
+                setBusy(false);
+                ui.showAlert(result.error);
+                return;
+            }
+            window.location.href = 'parent-dashboard.html#dashboard';
+        });
+    });
 
-        window.location.href = 'parent-dashboard.html#dashboard';
+    var googleButton = ui.byId('google-button');
+    var submitButton = form.querySelector('button[type="submit"]');
+
+    function setBusy(busy) {
+        googleButton.disabled = busy;
+        submitButton.disabled = busy;
+    }
+
+    googleButton.addEventListener('click', function () {
+        ui.clearErrors(form);
+        setBusy(true);
+        RW.auth.loginParentGoogle().then(function (result) {
+            if (!result.ok) {
+                setBusy(false);
+                if (!result.cancelled) { ui.showAlert(result.error); }
+                return;
+            }
+            // A brand-new Google account has no children yet, so start there.
+            window.location.href = result.isNew ? 'add-child.html?first=1' : 'parent-dashboard.html#dashboard';
+        });
     });
 })();

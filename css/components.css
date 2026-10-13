@@ -370,3 +370,11 @@
 /* A card shown when there is nothing to list yet */
 .empty-card { max-width: 40rem; border-style: dashed; border-color: var(--field-border); }
 .empty-card p:last-child { margin-bottom: 0; }
+
+/* "Continue with Google" button and the "or" divider on the login and sign-up cards */
+.btn-google { display: flex; align-items: center; justify-content: center; gap: var(--s-2); width: 100%; color: var(--ink-strong); background: #FFFFFF; border: 1px solid var(--field-border); font-weight: 600; }
+.btn-google:hover { background: var(--surface-hover); border-color: var(--field-border-hover); }
+.btn-google .google-g { flex: none; }
+.btn-google:disabled { opacity: .6; cursor: not-allowed; }
+.or-divider { display: flex; align-items: center; gap: var(--s-2); margin: var(--s-3) 0; color: var(--hint); font-size: .875rem; }
+.or-divider::before, .or-divider::after { content: ""; flex: 1; border-top: 1px solid var(--rule); }

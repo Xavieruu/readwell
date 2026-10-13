@@ -67,16 +67,16 @@
         if (!password) { ui.setFieldError('email-password', 'Enter your current password.'); ok = false; }
         if (!ok) { ui.focusFirstInvalid(emailForm); return; }
 
-        var result = RW.auth.changeParentEmail(pid, password, email);
-        if (!result.ok) {
-            if (result.field === 'email') { ui.setFieldError('new-email', result.error); ui.focusFirstInvalid(emailForm); }
-            else if (result.field === 'current') { ui.setFieldError('email-password', result.error); ui.focusFirstInvalid(emailForm); }
-            else { formAlert('email', result.error); }
-            return;
-        }
-        emailForm.reset();
-        showAccount();
-        note('email-note', 'Your email was changed to ' + result.email + '.');
+        RW.auth.changeParentEmailFirebase(password, email).then(function (result) {
+            if (!result.ok) {
+                if (result.field === 'email') { ui.setFieldError('new-email', result.error); ui.focusFirstInvalid(emailForm); }
+                else if (result.field === 'current') { ui.setFieldError('email-password', result.error); ui.focusFirstInvalid(emailForm); }
+                else { formAlert('email', result.error); }
+                return;
+            }
+            emailForm.reset();
+            note('email-note', 'We sent a confirmation link to ' + result.email + '. Your email changes after you open that link. Until then, keep using your current email.');
+        });
     });
 
     var passwordForm = byId('password-form');
@@ -95,21 +95,35 @@
         if (!confirm) { ui.setFieldError('confirm-password', 'Type the new password again to confirm it.'); ok = false; }
         if (!ok) { ui.focusFirstInvalid(passwordForm); return; }
 
-        var result = RW.auth.changeParentPassword(pid, current, next, confirm);
-        if (!result.ok) {
-            var map = { current: 'current-password', new: 'new-password', confirm: 'confirm-password' };
-            if (result.field && map[result.field]) { ui.setFieldError(map[result.field], result.error); ui.focusFirstInvalid(passwordForm); }
-            else { formAlert('password', result.error); }
-            return;
-        }
-        passwordForm.reset();
-        // Make sure the fields go back to hidden after a reset.
-        ['current-password', 'new-password', 'confirm-password'].forEach(function (i) { byId(i).type = 'password'; });
-        note('password-note', 'Your password was changed. You are still signed in.');
+        RW.auth.changeParentPasswordFirebase(current, next, confirm).then(function (result) {
+            if (!result.ok) {
+                var map = { current: 'current-password', new: 'new-password', confirm: 'confirm-password' };
+                if (result.field && map[result.field]) { ui.setFieldError(map[result.field], result.error); ui.focusFirstInvalid(passwordForm); }
+                else { formAlert('password', result.error); }
+                return;
+            }
+            passwordForm.reset();
+            // Make sure the fields go back to hidden after a reset.
+            ['current-password', 'new-password', 'confirm-password'].forEach(function (i) { byId(i).type = 'password'; });
+            note('password-note', 'Your password was changed. You are still signed in.');
+        });
     });
 
-    byId('account-recovery').appendChild(
-        secretCell(RW.store.ensureRecoveryCode(pid) || 'Unavailable', 'recovery code', null));
+    /* Show how this parent signs in. Parents who use Google have no ReadWell
+       password or email to change, so those two forms are hidden for them. */
+    RW.auth.parentProviders().then(function (providers) {
+        var usesPassword = !!providers && providers.indexOf('password') >= 0;
+        var usesGoogle = !!providers && providers.indexOf('google.com') >= 0;
+        byId('account-signin').textContent = usesPassword ? 'Email and password' + (usesGoogle ? ' and Google' : '') :
+            (usesGoogle ? 'Google' : 'Not available. Please log in again.');
+        if (!usesPassword) {
+            byId('email-section').hidden = true;
+            byId('password-section').hidden = true;
+            byId('account-hint').textContent = usesGoogle
+                ? 'You sign in with Google, so your email and password are managed in your Google account.'
+                : 'Please log out and log in again to change your account settings.';
+        }
+    });
     byId('logout').addEventListener('click', RW.auth.logout);
 
     /* ---------- student account management ---------- */

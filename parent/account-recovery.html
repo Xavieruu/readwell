@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Account recovery | ReadWell</title>
-    <meta name="description" content="Reset your ReadWell parent password with your recovery code, or find out how students get their username and PIN back.">
+    <meta name="description" content="Reset your ReadWell parent password by email, or find out how students get their username and PIN back.">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/animations.css">
@@ -20,10 +20,10 @@
 
         <p class="wordmark" aria-hidden="true">ReadWell</p>
 
-        <!-- Parent: reset password with the recovery code -->
+        <!-- Parent: get a reset link by email -->
         <div class="card" id="recovery-parent">
-            <h1 class="card-title">Account Recovery</h1>
-            <p class="lead">Enter your email, your recovery code and a new password.</p>
+            <h1 class="card-title">Reset your password</h1>
+            <p class="lead">Enter your email and we will send you a link to choose a new password.</p>
 
             <form id="recovery-form" novalidate>
                 <div class="alert alert-error" id="form-alert" role="alert" hidden>
@@ -36,50 +36,26 @@
                     <p class="field-error" id="recovery-email-error" hidden></p>
                 </div>
 
-                <div class="form-field">
-                    <label for="recovery-code">Recovery code</label>
-                    <input type="text" id="recovery-code" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="recovery-code-hint recovery-code-error" required>
-                    <p class="field-hint" id="recovery-code-hint">It looks like RW-ABCD-EFGH. You saw it when you signed up, and it is under Settings on your dashboard.</p>
-                    <p class="field-error" id="recovery-code-error" hidden></p>
-                </div>
-
-                <div class="form-field">
-                    <label for="recovery-password">New password</label>
-                    <input type="password" id="recovery-password" name="password" autocomplete="new-password" aria-describedby="recovery-password-hint recovery-password-error" required>
-                    <p class="field-hint" id="recovery-password-hint">At least 8 characters.</p>
-                    <p class="field-error" id="recovery-password-error" hidden></p>
-                </div>
-
-                <div class="form-field">
-                    <label for="recovery-confirm">Confirm new password</label>
-                    <input type="password" id="recovery-confirm" name="confirm" autocomplete="new-password" aria-describedby="recovery-confirm-error" required>
-                    <p class="field-error" id="recovery-confirm-error" hidden></p>
-                </div>
-
-                <div class="checkbox-row">
-                    <input type="checkbox" id="show-password">
-                    <label for="show-password">Show password</label>
-                </div>
-
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Reset Password</button>
+                    <button type="submit" class="btn btn-primary" id="recovery-submit">Send reset link</button>
                 </div>
             </form>
 
             <div class="card-links">
                 <p>Remembered it? <a href="parent-login.html">Log in.</a></p>
+                <p>Signed up with Google? <a href="parent-login.html">Use Continue with Google.</a></p>
                 <p>Are you a student? <a href="account-recovery.html?type=student">Student help</a></p>
             </div>
         </div>
 
-        <!-- Parent: success -->
+        <!-- Parent: link sent -->
         <div class="card" id="recovery-done" hidden>
-            <h1 class="card-title" id="recovery-done-title" tabindex="-1">Password updated</h1>
+            <h1 class="card-title" id="recovery-done-title" tabindex="-1">Check your email</h1>
             <div class="alert alert-success" role="status">
-                <strong class="alert-label">Done:</strong> Your password has been changed. You can log in with it now.
+                <strong class="alert-label">Sent:</strong> If an account exists for <span id="recovery-sent-to"></span>, we sent a link to reset the password. It may take a few minutes. Check your spam folder too.
             </div>
             <div class="form-actions">
-                <a class="btn btn-primary" href="parent-login.html">Log In</a>
+                <a class="btn btn-primary" href="parent-login.html">Back to Log In</a>
             </div>
         </div>
 
@@ -101,11 +77,13 @@
 
     <footer class="site-footer" id="site-footer"></footer>
 
+    <script src="../js/firebase-config.js"></script>
     <script src="../js/storage.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/icons.js"></script>
     <script src="../js/layout.js"></script>
     <script src="../js/account-recovery.js"></script>
     <script src="../js/lottie-slots.js"></script>
+    <script type="module" src="../js/firebase-init.js"></script>
 </body>
 </html>
