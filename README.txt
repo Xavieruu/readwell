@@ -178,3 +178,20 @@ Firebase console checklist
   (and any custom domain). Without it Google sign-in says "unauthorized domain".
 The apiKey in firebase-config.js is not secret. Never put the service-account
 JSON key in the project or in GitHub.
+
+----------------------------------------------------------------
+UI REVISIONS (Oct 14)
+- Parent dashboard: new "Viewing reading progress for" chooser card with
+  an initial badge; the child's name is bold in a green chip in the
+  Activity summary; Skills is split into "Recently practiced" and
+  "May need additional practice" panels with skill chips.
+- Children page: "View activity" sits in its own actions row (css:
+  .card-actions). All buttons now lift, add a shadow and (secondary
+  buttons) fill green on hover. Reduced-motion turns the lift off.
+- Settings: explanations moved behind a small (i) button next to the
+  label (js/layout.js -> RW.ui.enhanceHints). Placeholders added
+  ("e.g. amber_reads", "4 digits"). The long AI opt-in text is behind an (i).
+- Add child: new "profile created" card with a check badge, the child's
+  name and grade chip, a login-details card with Copy buttons.
+- Spacing pass: consistent gaps between paragraphs, details lists,
+  buttons and notes (end of css/components.css and css/parent.css).

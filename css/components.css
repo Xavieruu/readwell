@@ -378,3 +378,48 @@
 .btn-google:disabled { opacity: .6; cursor: not-allowed; }
 .or-divider { display: flex; align-items: center; gap: var(--s-2); margin: var(--s-3) 0; color: var(--hint); font-size: .875rem; }
 .or-divider::before, .or-divider::after { content: ""; flex: 1; border-top: 1px solid var(--rule); }
+
+/* ---------- Revision: clearer button hover + spacing ---------- */
+.btn { transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease, color .15s ease; }
+.btn:not(:disabled):not([aria-disabled="true"]):hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(14, 26, 20, .16); }
+.btn:not(:disabled):not([aria-disabled="true"]):active { transform: translateY(0); box-shadow: none; }
+.btn-secondary:not(:disabled):hover { color: #FFFFFF; background: var(--green-deep); border-color: var(--green-deep); }
+.btn-primary:not(:disabled):hover { box-shadow: 0 6px 14px rgba(14, 26, 20, .28); }
+.btn-google:hover { transform: none; box-shadow: none; }
+html[data-motion="reduced"] .btn:hover { transform: none; }
+@media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
+
+/* Row of buttons at the bottom of a card, with air above it */
+.card-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-3); margin-top: var(--s-4); padding-top: var(--s-3); border-top: 1px solid var(--rule); }
+.button-row { gap: var(--s-2) var(--s-3); }
+.card > .button-row { margin-top: var(--s-3); }
+.card > .details + .card-actions { margin-top: var(--s-4); }
+
+/* Small (i) button that reveals a field's explanation */
+.form-field label.has-info { display: inline-block; vertical-align: middle; }
+.info-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; margin-left: var(--s-1); padding: 0; vertical-align: middle;
+    font: italic 700 0.8125rem/1 Georgia, serif; color: var(--green-deep);
+    background: #FFFFFF; border: 1.5px solid var(--green-deep); border-radius: 50%; cursor: pointer;
+    transition: background-color .15s ease, color .15s ease;
+}
+.info-btn:hover, .info-btn[aria-expanded="true"] { color: #FFFFFF; background: var(--green-deep); }
+.form-field .field-hint:not([hidden]) { margin-top: var(--s-1); padding: var(--s-1) var(--s-2); background: var(--surface); border-left: 3px solid var(--green-deep); border-radius: 4px; }
+
+/* ---------- Spacing pass: consistent gaps between stacked content ---------- */
+.card > p + .btn,
+.card > p + .button-row,
+.card > p + .card-actions,
+.card > div + .btn { margin-top: var(--s-3); }
+.card > .details + p,
+.card > dl + p { margin-top: var(--s-3); }
+.card > p + .choice-fieldset,
+.card > p + fieldset { margin-top: var(--s-2); }
+.card > h2 + .details,
+.card > h2 + dl { margin-top: var(--s-2); }
+.card > .save-note:empty { display: none; }
+.card > .save-note { margin-top: var(--s-2); }
+.field-hint + #tts-sample,
+.card .field-hint + div { margin-top: var(--s-2); }
+.card > .field-hint + .button-row { margin-top: var(--s-2); }

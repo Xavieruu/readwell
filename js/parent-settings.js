@@ -163,16 +163,25 @@
             var note = byId('status-' + cid);
             if (note) { note.textContent = ok ? (tipsBox.checked ? 'AI study tips are on for ' + child.name + '.' : 'AI study tips are off for ' + child.name + '.') : 'We could not save the change.'; }
         });
+        var tipsInfo = el('button', { type: 'button', class: 'info-btn', 'aria-expanded': 'false', 'aria-controls': 'tips-info-' + cid, 'aria-label': 'More info: AI study tips' }, ['i']);
+        tipsInfo.addEventListener('click', function () {
+            var box = byId('tips-info-' + cid), open = tipsInfo.getAttribute('aria-expanded') !== 'true';
+            tipsInfo.setAttribute('aria-expanded', open ? 'true' : 'false');
+            box.hidden = !open;
+        });
         card.appendChild(el('div', { class: 'tips-optin' }, [
-            el('label', { for: 'tips-' + cid }, [tipsBox, ' Allow AI study tips and answer feedback']),
-            el('p', { class: 'hint', text: 'Adds a "Get study tips" button to ' + child.name + "'s Progress page and a short coach note after each quiz answer. Only skill names, percentages, a question id and the chosen answer are sent to Google Gemini. No name, username or school is ever sent. Off by default." })
+            el('div', { class: 'tips-head' }, [
+                el('label', { for: 'tips-' + cid }, [tipsBox, ' Allow AI study tips and answer feedback']),
+                tipsInfo
+            ]),
+            el('p', { class: 'hint', hidden: '', id: 'tips-info-' + cid, text: 'Adds a "Get study tips" button to ' + child.name + "'s Progress page and a short coach note after each quiz answer. Only skill names, percentages, a question id and the chosen answer are sent to Google Gemini. No name, username or school is ever sent. Off by default." })
         ]));
 
         var status = el('p', { class: 'save-note', role: 'status', id: 'status-' + cid });
 
         /* Change username */
         var uForm = el('form', { class: 'inline-form', novalidate: '' }, [
-            field('u-' + cid, 'New username', { maxlength: '20', autocapitalize: 'none' }, '3 to 20 letters, numbers or underscores.'),
+            field('u-' + cid, 'New username', { maxlength: '20', autocapitalize: 'none', placeholder: 'e.g. amber_reads' }, '3 to 20 letters, numbers or underscores.'),
             el('button', { type: 'submit', class: 'btn btn-secondary', text: 'Change username' })
         ]);
         uForm.addEventListener('submit', function (e) {
@@ -192,7 +201,7 @@
 
         /* Choose a PIN */
         var pForm = el('form', { class: 'inline-form', novalidate: '' }, [
-            field('p-' + cid, 'Choose a 4-digit PIN', { inputmode: 'numeric', maxlength: '4', pattern: '[0-9]*' }, 'A PIN you choose is not shown again later.'),
+            field('p-' + cid, 'Choose a 4-digit PIN', { inputmode: 'numeric', maxlength: '4', pattern: '[0-9]*', placeholder: '4 digits' }, 'A PIN you choose is not shown again later. When a PIN changes, the old one stops working right away.'),
             el('button', { type: 'submit', class: 'btn btn-secondary', text: 'Save PIN' })
         ]);
         pForm.addEventListener('submit', function (e) {
@@ -206,7 +215,7 @@
         card.appendChild(el('div', { class: 'account-forms' }, [
             el('div', {}, [el('h4', { text: 'Username' }), uForm]),
             el('div', {}, [el('h4', { text: 'PIN' }),
-                el('p', { class: 'pin-note', text: 'When a PIN changes, the old PIN stops working right away.' }),
+                
                 el('div', { class: 'button-row' }, [gen]), pForm]),
             status
         ]));
@@ -225,12 +234,14 @@
             return;
         }
         children.forEach(function (c) { box.appendChild(studentCard(c)); });
+        ui.enhanceHints(box);
         if (message && targetId) {
             var target = byId('status-' + targetId);
             if (target) { target.textContent = message; }
         }
     }
 
+    ui.enhanceHints(document);
     showAccount();
     render();
 })();

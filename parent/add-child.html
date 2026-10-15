@@ -104,28 +104,35 @@
             </div>
 
             <div class="container section-body">
-                <div class="card card-narrow">
-                    <div class="alert alert-success" role="status">
-                        <strong class="alert-label">Done:</strong>
-                        <span id="success-text"></span>
+                <div class="card card-narrow success-card">
+                    <div class="success-head">
+                        <span class="success-check" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                        </span>
+                        <div role="status">
+                            <h2 class="success-name" id="success-name"></h2>
+                            <p class="success-sub"><span class="badge badge-outline" id="success-grade"></span> <span>is ready to read.</span></p>
+                        </div>
                     </div>
 
-                    <p>They use them at <strong>Student Login</strong>.</p>
+                    <div class="login-card">
+                        <p class="login-card-title">Student login details</p>
+                        <dl class="credentials">
+                            <div>
+                                <dt>Username</dt>
+                                <dd id="new-username"></dd>
+                                <button type="button" class="btn btn-secondary btn-sm copy-btn" data-copy="new-username">Copy</button>
+                            </div>
+                            <div>
+                                <dt>PIN</dt>
+                                <dd id="new-pin"></dd>
+                                <button type="button" class="btn btn-secondary btn-sm copy-btn" data-copy="new-pin">Copy</button>
+                            </div>
+                        </dl>
+                        <p class="login-card-note">Your child signs in at <strong>Student Login</strong>. You can find these again under Settings.</p>
+                    </div>
 
-                    <dl class="credentials">
-                        <div>
-                            <dt>Student username</dt>
-                            <dd id="new-username"></dd>
-                        </div>
-                        <div>
-                            <dt>Student PIN</dt>
-                            <dd id="new-pin"></dd>
-                        </div>
-                    </dl>
-
-                    <p class="field-hint">You can find these again under Children on your dashboard.</p>
-
-                    <div class="button-row">
+                    <div class="card-actions">
                         <a class="btn btn-primary" href="parent-dashboard.html#dashboard">Go to dashboard</a>
                         <a class="btn btn-secondary" href="add-child.html">Add another child</a>
                     </div>

@@ -65,7 +65,17 @@
 
     function renderDashboard(child, st) {
         byId('dashboard-sub').textContent = 'A summary of ' + child.name + "'s reading.";
-        byId('sum-sentence').textContent = RW.progress.summarySentence(child.name, child.studentId);
+        /* Show the sentence with the child's name in bold green so it stands out. */
+        var sentence = RW.progress.summarySentence(child.name, child.studentId);
+        var sumBox = byId('sum-sentence');
+        ui.clear(sumBox);
+        var at = sentence.indexOf(child.name);
+        if (at < 0) { sumBox.textContent = sentence; }
+        else {
+            sumBox.appendChild(document.createTextNode(sentence.slice(0, at)));
+            sumBox.appendChild(el('strong', { class: 'name-chip', text: child.name }));
+            sumBox.appendChild(document.createTextNode(sentence.slice(at + child.name.length)));
+        }
 
         var stats = byId('sum-stats');
         ui.clear(stats);
@@ -75,14 +85,20 @@
         stats.appendChild(stat(String(st.attemptsCompleted), 'Attempts'));
 
         var practiced = byId('skills-practiced');
-        practiced.textContent = st.skills.length
-            ? st.skills.map(function (s) { return s.skill; }).join(', ') + '.'
-            : 'No skills practiced yet.';
+        ui.clear(practiced);
+        if (st.skills.length) {
+            st.skills.forEach(function (s) { practiced.appendChild(el('li', { class: 'chip', text: s.skill })); });
+        } else {
+            practiced.appendChild(el('li', { class: 'chip-empty', text: 'No skills practiced yet.' }));
+        }
 
         var extra = byId('skills-extra');
+        var extraList = byId('skills-extra-list');
+        ui.clear(extraList);
         extra.textContent = st.needsPractice.length
-            ? child.name + ' may benefit from more practice with: ' + joinNames(st.needsPractice) + '.'
+            ? 'More practice could help ' + child.name + ' with:'
             : (st.hasData ? 'No skills stand out right now. Keep reading together!' : 'This will show after a few activities.');
+        st.needsPractice.forEach(function (s) { extraList.appendChild(el('li', { class: 'chip chip-focus', text: s.skill })); });
 
         var rec = RW.recommendations.forSkill(child.studentId);
         byId('rec-card').hidden = !rec;
@@ -159,6 +175,7 @@
         var child = selectedChild();
         auth.setSelectedChildId(child.studentId);
         select.value = child.studentId;
+        byId('chooser-avatar').textContent = child.name.charAt(0).toUpperCase();
         var st = RW.progress.stats(child.studentId);
         renderDashboard(child, st);
         renderActivity(child, st);

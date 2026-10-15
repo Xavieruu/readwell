@@ -308,6 +308,39 @@
         update();
     }
 
+
+    /* Turns each ".field-hint" inside a ".form-field" into a small (i) button
+       next to the label. Pressing it shows or hides the explanation, so forms
+       stay clean. The hint stays in the page for screen readers. */
+    var infoCount = 0;
+    function enhanceHints(root) {
+        var scope = root || document;
+        var hints = scope.querySelectorAll('.form-field > .field-hint');
+        Array.prototype.forEach.call(hints, function (hint) {
+            if (hint.getAttribute('data-info-ready')) { return; }
+            var field = hint.parentNode;
+            var label = field.querySelector('label');
+            var input = field.querySelector('input, select, textarea');
+            if (!label) { return; }
+            infoCount += 1;
+            hint.id = hint.id || ('info-' + infoCount);
+            hint.setAttribute('data-info-ready', 'true');
+            hint.hidden = true;
+            if (input) {
+                var d = input.getAttribute('aria-describedby');
+                input.setAttribute('aria-describedby', (d ? d + ' ' : '') + hint.id);
+            }
+            var btn = el('button', { type: 'button', class: 'info-btn', 'aria-expanded': 'false', 'aria-controls': hint.id, 'aria-label': 'More info: ' + label.textContent.trim() }, ['i']);
+            btn.addEventListener('click', function () {
+                var open = btn.getAttribute('aria-expanded') !== 'true';
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                hint.hidden = !open;
+            });
+            label.parentNode.insertBefore(btn, label.nextSibling);
+            label.classList.add('has-info');
+        });
+    }
+
     RW.ui = {
         byId: byId,
         el: el,
@@ -317,7 +350,8 @@
         showAlert: showAlert,
         focusFirstInvalid: focusFirstInvalid,
         bindShowToggle: bindShowToggle,
-        initSections: initSections
+        initSections: initSections,
+        enhanceHints: enhanceHints
     };
 
     renderHeader();

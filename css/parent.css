@@ -28,3 +28,57 @@
 .tips-optin { margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px solid var(--rule); }
 .tips-optin label { display: inline-flex; align-items: center; gap: var(--s-2); font-weight: 600; color: var(--ink-strong); }
 .tips-optin .hint { margin: var(--s-1) 0 0; color: var(--hint); }
+
+/* ---------- Revision: child chooser ---------- */
+.chooser-bar { padding: var(--s-4) 0 var(--s-1); background: var(--surface); border-bottom: 1px solid var(--rule); }
+.chooser-bar .chooser { display: flex; align-items: center; gap: var(--s-3); width: fit-content; max-width: 100%; margin-bottom: var(--s-3); padding: var(--s-2) var(--s-4) var(--s-2) var(--s-2); background: #FFFFFF; border: 1px solid var(--card-line); border-radius: var(--radius-card); }
+.chooser-avatar { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; font-size: 1.25rem; font-weight: 700; color: #FFFFFF; background: var(--green-deep); border-radius: 50%; }
+.chooser-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.chooser-text label { font-size: 0.875rem; font-weight: 600; color: var(--hint); }
+.chooser-text select { min-width: 12rem; max-width: 100%; min-height: 40px; padding: 4px var(--s-2); font-size: 1.0625rem; font-weight: 600; }
+
+/* Child's name inside a sentence */
+.name-chip { padding: 1px 8px; color: var(--green-deep); background: var(--surface-item); border-radius: 6px; font-weight: 700; }
+
+/* ---------- Revision: Skills card ---------- */
+.skill-panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--s-3); margin-top: var(--s-3); }
+.skill-panel { padding: var(--s-3); background: var(--surface); border: 1px solid var(--card-line); border-radius: var(--radius-input); }
+.skill-panel-focus { border-left: 5px solid var(--green-deep); }
+.skill-panel h3 { margin: 0 0 var(--s-2); font-size: 1.0625rem; }
+.skill-panel p { margin: 0 0 var(--s-2); }
+.chip-list { display: flex; flex-wrap: wrap; gap: var(--s-1); margin: 0; padding: 0; list-style: none; }
+.chip { padding: 4px 12px; font-size: 0.9375rem; font-weight: 600; color: var(--ink-strong); background: #FFFFFF; border: 1px solid var(--field-border); border-radius: 999px; }
+.chip-focus { color: var(--green-deep); border-color: var(--green-deep); }
+.chip-empty { color: var(--hint); }
+.skills-note { margin: var(--s-3) 0 0; padding-top: var(--s-2); font-size: 0.9375rem; color: var(--hint); border-top: 1px solid var(--rule); }
+
+/* ---------- Revision: settings tweaks ---------- */
+.tips-head { display: flex; align-items: center; gap: var(--s-1); }
+.tips-optin .hint:not([hidden]) { padding: var(--s-1) var(--s-2); background: var(--surface); border-left: 3px solid var(--green-deep); border-radius: 4px; }
+.inline-form { gap: var(--s-2) var(--s-3); align-items: flex-end; }
+.inline-form .btn { margin-top: 0; }
+.account-forms { gap: var(--s-4); }
+.account-forms .button-row { margin-bottom: var(--s-3); }
+
+/* ---------- Revision: "profile created" card ---------- */
+.success-card { display: grid; gap: var(--s-4); max-width: 620px; margin-inline: auto; }
+.success-head { display: flex; align-items: center; gap: var(--s-3); }
+.success-check { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; color: #FFFFFF; background: var(--green-deep); border-radius: 50%; }
+.success-name { margin: 0; font-size: 1.75rem; line-height: 1.15; overflow-wrap: anywhere; }
+.success-sub { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-1); margin: var(--s-1) 0 0; color: var(--hint); }
+.login-card { padding: var(--s-3); background: var(--surface); border: 1px solid var(--card-line); border-radius: var(--radius-card); }
+.login-card-title { margin: 0 0 var(--s-2); font-size: 0.875rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--hint); }
+.login-card .credentials { margin: 0; padding: 0; background: none; border: 0; gap: 0; }
+.login-card .credentials div { display: grid; grid-template-columns: 6rem 1fr auto; align-items: center; gap: var(--s-2); padding: var(--s-2) 0; border-top: 1px solid var(--rule); }
+.login-card .credentials div:first-child { border-top: 0; }
+.login-card .credentials dd { font-size: 1.375rem; overflow-wrap: anywhere; }
+.login-card-note { margin: var(--s-2) 0 0; padding-top: var(--s-2); font-size: 0.9375rem; color: var(--hint); border-top: 1px solid var(--rule); }
+.success-card .card-actions { margin-top: 0; }
+@media (max-width: 480px) { .login-card .credentials div { grid-template-columns: 1fr auto; } .login-card .credentials dt { grid-column: 1 / -1; } }
+
+/* Spacing fixes found in the review */
+.section-title { margin: var(--s-5) 0 0; }
+#students > .section-title { margin-top: var(--s-4); }
+.inline-form { align-items: flex-start; }
+.inline-form .btn { margin-top: 30px; }
+.inline-form .form-field .field-error:empty { display: none; }

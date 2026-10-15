@@ -41,7 +41,7 @@
         box.appendChild(el('section', { class: 'card', 'aria-label': child.name }, [
             el('h2', { text: child.name }),
             dl,
-            el('div', { class: 'button-row' }, [view])
+            el('div', { class: 'card-actions' }, [view])
         ]));
     });
 })();

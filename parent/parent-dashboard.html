@@ -21,9 +21,12 @@
         <!-- Child chooser: everything below belongs to the child chosen here -->
         <div class="chooser-bar" id="chooser-bar" hidden>
             <div class="container">
-                <div class="field-row">
-                    <label for="child-select">Viewing:</label>
-                    <select id="child-select"></select>
+                <div class="chooser">
+                    <span class="chooser-avatar" id="chooser-avatar" aria-hidden="true">?</span>
+                    <div class="chooser-text">
+                        <label for="child-select">Viewing reading progress for</label>
+                        <select id="child-select"></select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -62,11 +65,18 @@
                 </section>
                 <section class="card" aria-labelledby="skills-heading">
                     <h2 id="skills-heading">Skills</h2>
-                    <h3>Recently practiced</h3>
-                    <p id="skills-practiced"></p>
-                    <h3>Skills that may need additional practice</h3>
-                    <p id="skills-extra"></p>
-                    <p class="field-hint">These are study hints based on practice answers. They are not a test result or an assessment of ability.</p>
+                    <div class="skill-panels">
+                        <div class="skill-panel">
+                            <h3>Recently practiced</h3>
+                            <ul class="chip-list" id="skills-practiced"></ul>
+                        </div>
+                        <div class="skill-panel skill-panel-focus">
+                            <h3>May need additional practice</h3>
+                            <p id="skills-extra"></p>
+                            <ul class="chip-list" id="skills-extra-list"></ul>
+                        </div>
+                    </div>
+                    <p class="skills-note">These are study hints based on practice answers. They are not a test result or an assessment of ability.</p>
                 </section>
                 <section class="card" aria-labelledby="rec-heading" id="rec-card" hidden>
                     <h2 id="rec-heading">Suggested next activity</h2>

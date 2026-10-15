@@ -65,8 +65,8 @@
 
         RW.auth.setSelectedChildId(student.studentId);
 
-        ui.byId('success-text').textContent =
-            student.name + ' (' + student.gradeLevel + ') has been added to your account.';
+        ui.byId('success-name').textContent = student.name;
+        ui.byId('success-grade').textContent = student.gradeLevel;
         ui.byId('new-username').textContent = student.username;
         ui.byId('new-pin').textContent = student.displayPin;
 
@@ -75,5 +75,19 @@
         window.document.title = 'Profile created | ReadWell';
         window.scrollTo(0, 0);
         ui.byId('success-title').focus();
+    });
+
+    /* "Copy" buttons next to the username and PIN. */
+    Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function (btn) {
+        btn.addEventListener('click', function () {
+            var text = ui.byId(btn.getAttribute('data-copy')).textContent;
+            function done() {
+                btn.textContent = 'Copied';
+                window.setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done, function () {});
+            }
+        });
     });
 })();
