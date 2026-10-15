@@ -13,6 +13,14 @@
 
     var UNSUPPORTED = 'Text-to-speech is not supported by this browser.';
     var active = null;   // the one controller that is currently speaking
+    var NO_VOICE = 'No voice is available in this browser, so reading aloud cannot start. Try Chrome, Edge or Safari, or ask a grown-up to install a text-to-speech voice.';
+
+    /* Prefer an English voice. Voices can load late, so ask every time. */
+    function pickVoice() {
+        var list = global.speechSynthesis.getVoices() || [];
+        for (var i = 0; i < list.length; i++) { if (/^en/i.test(list[i].lang)) { return list[i]; } }
+        return list[0] || null;
+    }
 
     function supported() {
         return !!(global.speechSynthesis && global.SpeechSynthesisUtterance);
@@ -61,6 +69,8 @@
         var token = 0;                // changes on every Play/Stop so old callbacks are ignored
         var pieces = [];
         var index = 0;
+        var errorMsg = '';             // shown when the browser has no usable voice
+        var watchdog = null;
 
         var group = doc.createElement('div');
         group.className = 'tts-buttons';
@@ -88,10 +98,11 @@
             resume.hidden = state !== 'paused';
             stop.disabled = state === 'idle';
             status.textContent = state === 'playing' ? 'Reading aloud...'
-                : state === 'paused' ? 'Paused.' : '';
+                : state === 'paused' ? 'Paused.' : errorMsg;
         }
 
         function finish() {
+            if (watchdog) { global.clearTimeout(watchdog); watchdog = null; }
             state = 'idle';
             if (active === controller) { active = null; }
             render();
@@ -103,12 +114,33 @@
             var u = new global.SpeechSynthesisUtterance(pieces[index]);
             index += 1;
             u.rate = options.getRate ? options.getRate() : 1;
+            u.lang = 'en-US';
+            var voice = pickVoice();
+            if (voice) { u.voice = voice; }
+            u.onstart = function () { if (watchdog) { global.clearTimeout(watchdog); watchdog = null; } };
             u.onend = function () { speakNext(myToken); };
-            u.onerror = function () { if (myToken === token) { finish(); } };
+            u.onerror = function (e) {
+                if (myToken !== token) { return; }
+                // "canceled" / "interrupted" just mean Stop was pressed.
+                if (!e || (e.error !== 'canceled' && e.error !== 'interrupted')) { errorMsg = NO_VOICE; }
+                finish();
+            };
+            // Some browsers (for example on Linux with no speech engine) accept the
+            // request but never start. If nothing starts, tell the student why.
+            if (index === 1) {
+                watchdog = global.setTimeout(function () {
+                    if (myToken !== token) { return; }
+                    errorMsg = NO_VOICE;
+                    token += 1;
+                    synth.cancel();
+                    finish();
+                }, 3000);
+            }
             synth.speak(u);
         }
 
         function onPlay() {
+            errorMsg = '';
             if (active && active !== controller) { active.stop(); }
             synth.cancel();
             pieces = chunk(options.getText());

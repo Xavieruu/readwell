@@ -202,9 +202,14 @@
                 list.appendChild(el('li', {}, [el('strong', { text: 'Hint ' + n + ': ' }), engine.hintText(q, n)]));
             }
             var out = a.hintsUsed >= engine.MAX_HINTS;
-            hintButton.textContent = out ? 'No more hints' : 'Show hint ' + (a.hintsUsed + 1) + ' of ' + engine.MAX_HINTS;
-            hintButton.disabled = out;
-            hintButton.hidden = a.solved;
+            /* Hints are for BEFORE answering. Once an answer is in, the button is
+               switched off. "Try again" turns it back on for the new try. */
+            var answered = a.submitted && !retrying;
+            hintButton.textContent = answered ? 'Hints are off after you answer'
+                : out ? 'No more hints'
+                : 'Show hint ' + (a.hintsUsed + 1) + ' of ' + engine.MAX_HINTS;
+            hintButton.disabled = out || answered;
+            hintButton.hidden = false;
         }
 
         function showFeedback(q, correct) {
@@ -328,6 +333,7 @@
 
         retryButton.addEventListener('click', function () {
             retrying = true;
+            renderHints(currentQuestion(), engine.answerFor(attempt, currentQuestion().questionId));
             setLocked(false);
             var inputs = form.querySelectorAll('input[name="answer"]');
             for (var i = 0; i < inputs.length; i++) { inputs[i].checked = false; }

@@ -204,3 +204,6 @@ UI REVISIONS (Oct 15)
   "Your skills" has two matching panels with ranked rows (name, "x of y correct", % badge).
 - Settings: Change username / Save PIN buttons now match the input height and line up with it.
 - Student progress: removed most grey helper lines; body text uses the main ink colour.
+
+- Reading: the hint button switches off once an answer is submitted (Try Again turns it back on).
+- Read aloud: if the browser has no speech voice, Play now shows a clear message instead of doing nothing.
