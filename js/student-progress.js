@@ -33,9 +33,15 @@
     /* Good at / practice more */
     function fillSkills(listId, skills, emptyText) {
         var list = byId(listId);
-        if (!skills.length) { list.appendChild(el('li', { text: emptyText })); return; }
+        if (!skills.length) { list.appendChild(el('li', { class: 'rank-empty', text: emptyText })); return; }
         skills.forEach(function (s) {
-            list.appendChild(el('li', {}, [el('strong', { text: s.skill }), ' — ' + s.percent + '% (' + s.correct + ' of ' + s.total + ' correct)']));
+            list.appendChild(el('li', { class: 'rank-row' }, [
+                el('span', { class: 'rank-main' }, [
+                    el('span', { class: 'rank-name', text: s.skill }),
+                    el('span', { class: 'rank-detail', text: s.correct + ' of ' + s.total + ' correct' })
+                ]),
+                el('span', { class: 'rank-pct', text: s.percent + '%' })
+            ]));
         });
     }
     fillSkills('good-list', st.strengths, 'Keep reading. Your strengths will show up here as you answer more questions.');

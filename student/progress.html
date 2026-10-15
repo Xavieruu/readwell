@@ -34,7 +34,7 @@
             </div>
             <div id="content" class="stack" hidden>
                 <section class="card" aria-labelledby="h-stats">
-                    <h2 id="h-stats">Your reading so far</h2>
+                    <div class="card-head"><h2 id="h-stats">Your reading so far</h2><p class="card-lead">Totals from all the stories you have finished.</p></div>
                     <ul class="stat-grid">
                         <li class="stat"><span class="stat-number" id="s-completed">0</span><span class="stat-label">Activities completed</span></li>
                         <li class="stat"><span class="stat-number" id="s-average">0%</span><span class="stat-label">Average score</span></li>
@@ -44,10 +44,17 @@
                 </section>
 
                 <section class="card" aria-labelledby="h-good">
-                    <h2 id="h-good">What am I good at?</h2>
-                    <ul class="plain-list" id="good-list"></ul>
-                    <h2 id="h-practice" style="margin-top:24px">What should I practice more?</h2>
-                    <ul class="plain-list" id="practice-list"></ul>
+                    <div class="card-head"><h2 id="h-good">Your skills</h2><p class="card-lead">What is going well and what to try next.</p></div>
+                    <div class="skill-panels">
+                        <div class="skill-panel">
+                            <h3 id="h-strong">What am I good at?</h3>
+                            <ul class="rank-list" id="good-list"></ul>
+                        </div>
+                        <div class="skill-panel">
+                            <h3 id="h-practice">What should I practice more?</h3>
+                            <ul class="rank-list" id="practice-list"></ul>
+                        </div>
+                    </div>
                     <div id="skill-rec" class="rec-box" hidden>
                         <p id="skill-rec-text"></p>
                         <a class="btn btn-primary btn-sm" id="skill-rec-link" href="reading.html">Open this activity</a>
@@ -55,39 +62,38 @@
                 </section>
 
                 <section class="card" id="ai-tips" aria-labelledby="h-tips" hidden>
-                    <h2 id="h-tips">Study tips</h2>
-                    <p>Tips written by a computer program (Google Gemini) from your skill scores. They are ideas to try, not a test result.</p>
+                    <div class="card-head"><h2 id="h-tips">Study tips</h2><p class="card-lead">Ideas to try, written from your skill scores.</p></div>
+                    <p class="field-hint">Tips are written by a computer program (Google Gemini). They are ideas to try, not a test result.</p>
                     <button type="button" class="btn btn-secondary" id="ai-tips-button">Get study tips</button>
                     <p class="save-note" id="ai-tips-status" role="status"></p>
                     <ul class="plain-list" id="ai-tips-list" hidden></ul>
                 </section>
 
                 <section class="card" aria-labelledby="h-skills">
-                    <h2 id="h-skills">Accuracy by skill</h2>
-                    <p class="field-hint">Counts questions you got right on the first try, across all your finished attempts.</p>
+                    <div class="card-head"><h2 id="h-skills">Accuracy by skill</h2><p class="card-lead">Questions you got right on the first try, across all finished attempts.</p></div>
                     <ul class="skill-list" id="skill-list"></ul>
                 </section>
 
                 <section class="card" aria-labelledby="h-time">
-                    <h2 id="h-time">Scores over time</h2>
+                    <div class="card-head"><h2 id="h-time">Scores over time</h2><p class="card-lead">Your score on each finished activity.</p></div>
                     <div id="chart"></div>
                     <ol class="plain-list score-list" id="score-list"></ol>
                 </section>
 
                 <section class="card" aria-labelledby="h-improve">
-                    <h2 id="h-improve">Improvement</h2>
+                    <div class="card-head"><h2 id="h-improve">Improvement</h2><p class="card-lead">How practice attempts compare with the first try.</p></div>
                     <p id="improve-text"></p>
                     <ul class="plain-list" id="improve-list"></ul>
                 </section>
 
                 <section class="card" aria-labelledby="h-recent">
-                    <h2 id="h-recent">Recent activities</h2>
+                    <div class="card-head"><h2 id="h-recent">Recent activities</h2><p class="card-lead">Your latest finished stories.</p></div>
                     <ul class="story-list" id="recent-list"></ul>
                     <p><a href="activity-history.html">See all activity history</a></p>
                 </section>
 
                 <section class="card" aria-labelledby="h-ach">
-                    <h2 id="h-ach">Achievements</h2>
+                    <div class="card-head"><h2 id="h-ach">Achievements</h2><p class="card-lead">Badges you have earned so far.</p></div>
                     <ul class="plain-list ach-list" id="ach-list"></ul>
                 </section>
             </div>

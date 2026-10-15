@@ -423,3 +423,34 @@ html[data-motion="reduced"] .btn:hover { transform: none; }
 .field-hint + #tts-sample,
 .card .field-hint + div { margin-top: var(--s-2); }
 .card > .field-hint + .button-row { margin-top: var(--s-2); }
+
+/* ---------- Shared: skill panels, ranked rows, card heads, back links ---------- */
+.skill-panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: var(--s-3); margin-top: var(--s-3); }
+.skill-panel { padding: var(--s-3); background: var(--surface); border: 1px solid var(--card-line); border-radius: var(--radius-input); }
+.skill-panel h3 { margin: 0 0 var(--s-2); font-size: 1.0625rem; }
+.skill-panel p { margin: 0 0 var(--s-2); }
+.chip-list { display: flex; flex-wrap: wrap; gap: var(--s-1); margin: 0; padding: 0; list-style: none; }
+.chip { padding: 4px 12px; font-size: 0.9375rem; font-weight: 600; color: var(--ink-strong); background: #FFFFFF; border: 1px solid var(--field-border); border-radius: 999px; }
+.chip-empty { color: var(--hint); }
+.skills-note { margin: var(--s-3) 0 0; padding-top: var(--s-2); font-size: 0.9375rem; color: var(--hint); border-top: 1px solid var(--rule); }
+
+.rank-list { margin: 0; padding: 0; list-style: none; }
+.rank-row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); padding: var(--s-2) 0; border-top: 1px solid var(--rule); }
+.rank-row:first-child { padding-top: 0; border-top: 0; }
+.rank-main { display: flex; flex-direction: column; min-width: 0; }
+.rank-name { font-size: 1.0625rem; font-weight: 700; color: var(--ink-strong); }
+.rank-detail { font-size: 0.875rem; color: var(--hint); }
+.rank-pct { flex: none; padding: 2px 12px; font-size: 1.125rem; font-weight: 800; color: var(--green-deep); background: #FFFFFF; border: 1.5px solid var(--green-deep); border-radius: 999px; }
+.rank-empty { color: var(--hint); }
+
+/* Card title + one-line description, with a divider before the content */
+.card-head { margin-bottom: var(--s-3); padding-bottom: var(--s-2); border-bottom: 1px solid var(--rule); }
+.card-head h2 { margin: 0; }
+.card-lead { margin: 2px 0 0; font-size: 0.9375rem; color: var(--hint); }
+
+/* Lone links that sit on the green page background (e.g. "Back to ...") */
+.section-body > p > a:only-child { display: inline-block; padding: 8px var(--s-3); font-weight: 600; text-decoration: none; background: var(--surface); border: 1px solid var(--card-line); border-radius: 999px; }
+.section-body > p > a:only-child:hover { background: #FFFFFF; border-color: var(--green-deep); }
+
+.rec-box { margin-top: var(--s-3); }
+.rec-box p { margin: 0 0 var(--s-2); }

@@ -53,6 +53,16 @@
     });
     byId('chooser-bar').hidden = false;
 
+    /* The chooser lives inside the green header of whichever tab is open, so
+       there is no separate strip above the page. */
+    function placeChooser() {
+        var key = window.location.hash.replace('#', '') || 'dashboard';
+        var section = document.querySelector('[data-section="' + key + '"]') || document.querySelector('[data-section]');
+        var holder = section && section.querySelector('.page-header .container');
+        if (holder && byId('chooser-bar').parentNode !== holder) { holder.appendChild(byId('chooser-bar')); }
+    }
+    window.addEventListener('hashchange', placeChooser);
+
     function selectedChild() {
         var id = auth.getSelectedChildId(parent.parentId);
         for (var i = 0; i < children.length; i++) {
@@ -189,4 +199,5 @@
 
     renderAll();
     ui.initSections('dashboard');
+    placeChooser();
 })();

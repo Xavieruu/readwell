@@ -195,3 +195,11 @@ UI REVISIONS (Oct 14)
   name and grade chip, a login-details card with Copy buttons.
 - Spacing pass: consistent gaps between paragraphs, details lists,
   buttons and notes (end of css/components.css and css/parent.css).
+
+UI REVISIONS (Oct 15)
+- Parent dashboard: child chooser is now a pill inside the green page header
+  (moved by js/parent.js -> placeChooser). Both skill panels share one style.
+- Settings: "Student account management" intro is in a light card (.section-intro).
+- Student progress: each card has a title + one-line description (.card-head);
+  "Your skills" has two matching panels with ranked rows (name, "x of y correct", % badge).
+- Settings: Change username / Save PIN buttons now match the input height and line up with it.
