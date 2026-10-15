@@ -203,3 +203,4 @@ UI REVISIONS (Oct 15)
 - Student progress: each card has a title + one-line description (.card-head);
   "Your skills" has two matching panels with ranked rows (name, "x of y correct", % badge).
 - Settings: Change username / Save PIN buttons now match the input height and line up with it.
+- Student progress: removed most grey helper lines; body text uses the main ink colour.

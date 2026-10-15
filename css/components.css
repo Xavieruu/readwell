@@ -454,3 +454,11 @@ html[data-motion="reduced"] .btn:hover { transform: none; }
 
 .rec-box { margin-top: var(--s-3); }
 .rec-box p { margin: 0 0 var(--s-2); }
+
+/* Less grey: body text on student progress uses the main ink colour */
+.card-lead-ink { margin-top: var(--s-1); font-size: 1rem; color: var(--ink); }
+.card-head:not(:has(.card-lead)) { padding-bottom: var(--s-2); }
+.rank-detail { font-size: 0.9375rem; color: var(--ink); }
+.rank-empty { color: var(--ink); }
+.stat-label { color: var(--ink); }
+.story-meta { color: var(--ink); }
